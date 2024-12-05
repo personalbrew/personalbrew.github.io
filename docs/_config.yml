@@ -1,4 +1,4 @@
-baseurl: '/'
+baseurl: '/docs/'
 permalink: pretty
 title: 'Jekyll Serif'
 
