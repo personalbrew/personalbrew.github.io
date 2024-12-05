@@ -9,7 +9,7 @@ clipeus fatetur, mira inter accedere. Dedit dum raptoresque Oete dolorem
 Cretaeas enim [ipse pectora excusat](#in-poscat) candentibus fertur? Furtiva
 Orontes Erysicthona dona, est per Achille viridi draconis cultis mota milia.
 
-![Accounting Services](/images/austin-distel-nGc5RT2HmF0-unsplash.jpg)
+![Accounting Services]({{ site.baseurl }}/images/austin-distel-nGc5RT2HmF0-unsplash.jpg)
 
 # Objectives
 
