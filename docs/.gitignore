@@ -1,22 +1,14 @@
-# NPM
-node_modules
-npm-debug.log
-
-# Jekyll
+_asset_bundler_cache
 _site
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-Gemfile.lock
-**/Gemfile.lock
-
-# Temporary files
-tmp
+.bundle
 .DS_Store
-Desktop.ini
-._*
-Thumbs.db
-.Spotlight-V100
-.Trashes
-.idea
+.jekyll-cache
+.jekyll-metadata
+.sass-cache
+*.gem
+*.sublime-project
+*.sublime-workspace
+codekit-config.json
+Gemfile.lock
+node_modules
+npm-debug.log*
