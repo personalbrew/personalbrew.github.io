@@ -19,7 +19,7 @@ title: "Personal Brew Coffee"
 description: "Lightly roasted filter coffee creating your personal experience."
 baseurl: "/docs" # the subpath of your site, e.g. "/blog"
 url: "https://personalbrew.github.io"
-skin: "{{ site.baseurl }}/assets/css/skins/default.css"
+skin: "/assets/css/skins/default.css"
 logo: # path of site logo, e.g. "/images/logo.png"
 date_format: "%B %-d, %Y"
 read_time: # reading time estimates, e.g. true
@@ -51,7 +51,8 @@ feed:
   
 css_dir: assets/css
 sass:
-  sass_dir: _sass
+  sass_dir: assets/css/skins  # Change this to match your actual SCSS directory
+  style: compressed  # or :expanded for more readable output
 
 # Pagination - https://jekyllrb.com/docs/pagination/
 # paginate: 10
