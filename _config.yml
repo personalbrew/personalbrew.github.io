@@ -17,7 +17,7 @@ remote_theme: "mmistakes/so-simple-theme@3.2.0"
 locale: en-US
 title: "Personal Brew Coffee"
 description: "Lightly roasted filter coffee creating your personal experience."
-baseurl: "/docs" # the subpath of your site, e.g. "/blog"
+baseurl: "" # the subpath of your site, e.g. "/blog"
 url: "https://personalbrew.github.io"
 skin: "/assets/css/skins/default.css"
 logo: # path of site logo, e.g. "/images/logo.png"
@@ -112,8 +112,8 @@ footer_links:
     #icon: fas fa-rss-square
     icon: fab fa-instagram
     
-include:
-  - products/product0
-  - products/product1
-  - products/product2
-  - products/product3
+#include:
+#  - products/product0
+#  - products/product1
+#  - products/product2
+#  - products/product3
