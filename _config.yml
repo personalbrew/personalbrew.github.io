@@ -111,3 +111,9 @@ footer_links:
     url: https://www.instagram.com/personalbrewcoffee/profilecard/?igsh=MXV2ZmswdzB2NzRvNQ==
     #icon: fas fa-rss-square
     icon: fab fa-instagram
+    
+include:
+  - products/product0
+  - products/product1
+  - products/product2
+  - products/product3
