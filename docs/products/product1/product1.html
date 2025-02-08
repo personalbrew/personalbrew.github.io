@@ -9,18 +9,13 @@
     <img src="image1.png" alt="Product 1">
     <p>Detailed description of Product 1.</p>
     <!-- PayPal Add to Cart Button -->
-	<!--
-    <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-        <input type="hidden" name="cmd" value="_cart">
-        <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
-        <input type="hidden" name="item_name" value="Product 1 Name">
-        <input type="hidden" name="amount" value="PRICE">
-        <input type="hidden" name="currency_code" value="USD">
-        <input type="hidden" name="add" value="1">
-        <input type="hidden" name="quantity" value="1">
-        <input type="hidden" name="inventory" value="PRODUCT1_ID">
-        <input type="submit" value="Add to Cart">
-    </form>
-	-->
+	<script src="https://www.paypal.com/sdk/js?client-id=BAAE42FHOM3E-YA3Edli47nQFm11Co_NUnqpGgTnXTb5mEfcB1FZuyIyhYp8mVPal5yFVewWrYqN4mlB2A&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+<div id="paypal-container-85TU8ZTJQFC76"></div>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "85TU8ZTJQFC76",
+  }).render("#paypal-container-85TU8ZTJQFC76")
+</script>
+	
 </body>
 </html>
