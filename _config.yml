@@ -112,6 +112,12 @@ footer_links:
     #icon: fas fa-rss-square
     icon: fab fa-instagram
     
+navigation:
+  - title: Home
+    url: /
+  - title: Products
+    url: /products/
+    
 #include:
 #  - products/product0
 #  - products/product1
