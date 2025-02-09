@@ -8,10 +8,222 @@ entries_layout: list
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ site.title }}</title>
+  <meta charset="UTF-8">
+  <title>My Shop Cart Example</title>
+  
+  <!-- Firebase Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- PayPal SDK (replace YOUR_PAYPAL_CLIENT_ID with your actual client id) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ASvyCegv19q4XcgYlk94h1PTj0kslZMtWN89mTSo2S_XC0PAu5ValW5ngaFHJ7vGinOP12HmDK6be9El&currency=EUR"></script>
+  
+  <style>
+    /* Basic styling */
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .product-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+    .product-item { border: 1px solid #ccc; padding: 10px; width: 200px; }
+    .product-item img { max-width: 100%; }
+    #cart { margin-top: 40px; }
+    #cart table { width: 100%; border-collapse: collapse; }
+    #cart table, #cart th, #cart td { border: 1px solid #ccc; }
+    #cart th, #cart td { padding: 8px; text-align: left; }
+  </style>
 </head>
 <body>
-    {{ content }}
+  <h1>My Shop</h1>
+  <!-- Product Grid -->
+  <div class="product-grid">
+    <div class="product-item" data-id="product0">
+      <img src="{{ site.baseurl }}/products/product0/image0.png" alt="Product 0">
+      <h2>Product 0</h2>
+      <p>Price: €1.00</p>
+      <button onclick="addToCart('p0', 'Product 0', 1.00)">Add to Cart</button>
+    </div>
+    <div class="product-item" data-id="product1">
+      <img src="{{ site.baseurl }}/products/product1/image1.png" alt="Product 1">
+      <h2>Product 1</h2>
+      <p>Price: €0.01</p>
+      <button onclick="addToCart('p1', 'Product 1', 0.01)">Add to Cart</button>
+    </div>
+    <!-- Add more products as needed -->
+  </div>
+
+  <!-- Cart Section -->
+  <div id="cart">
+    <h2>Your Cart</h2>
+    <table id="cartTable">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <!-- Display subtotal, shipping and grand total -->
+    <p>Subtotal: €<span id="totalAmount">0.00</span></p>
+    <p>Shipping: €<span id="shippingCost">0.00</span></p>
+    <p>Grand Total: €<span id="grandTotal">0.00</span></p>
+    <!-- PayPal Button will render here -->
+    <div id="paypal-button-container"></div>
+  </div>
+
+  <script>
+    /***** Firebase Initialization *****/
+    // Replace with your Firebase configuration
+    var firebaseConfig = {
+  apiKey: "AIzaSyBhUktdVbhqUYuw5A27fGlBnqeabiPBtyc",
+  authDomain: "personal-brew-webshop.firebaseapp.com",
+  projectId: "personal-brew-webshop",
+  storageBucket: "personal-brew-webshop.firebasestorage.app",
+  messagingSenderId: "861682226406",
+  appId: "1:861682226406:web:c82193e85ffd33c2c75727"
+};
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    /***** Cart and Shipping Variables *****/
+    // Cart is stored as an object: productId => { name, price, quantity }
+    var cart = {};
+    // Define a shipping cost (this could be dynamic or calculated based on your rules)
+    var shippingCost = 5.00;
+
+    /***** Cart Functions *****/
+    // Add an item to the cart
+    function addToCart(id, name, price) {
+  // Reference to the product document in Firestore
+  var productRef = db.collection('inventory').doc(id);
+  
+  // Get the current stock for the product
+  productRef.get().then(function(doc) {
+    if (doc.exists) {
+      var currentStock = doc.data().stock;
+      // Determine how many items are already in the cart
+      var currentQuantity = cart[id] ? cart[id].quantity : 0;
+      
+      // Check if adding one more would exceed the available stock
+      if (currentQuantity < currentStock) {
+        // Add item to the cart
+        if (cart[id]) {
+          cart[id].quantity += 1;
+        } else {
+          cart[id] = { name: name, price: price, quantity: 1 };
+        }
+        updateCartUI();
+      } else {
+        alert("Sorry, there are only " + currentStock + " items in stock.");
+      }
+    } else {
+      alert("Product does not exist!");
+    }
+  }).catch(function(error) {
+    console.error("Error fetching product stock:", error);
+  });
+}
+
+    // Remove an item from the cart
+    function removeFromCart(id) {
+      if (cart[id]) { delete cart[id]; }
+      updateCartUI();
+    }
+
+    // Calculate cart subtotal (sum of item price * quantity)
+    function calculateCartSubtotal() {
+      var total = 0;
+      for (var id in cart) {
+        total += cart[id].price * cart[id].quantity;
+      }
+      return total;
+    }
+
+    // Update the cart table and totals in the UI
+    function updateCartUI() {
+      var tbody = document.querySelector('#cartTable tbody');
+      tbody.innerHTML = '';
+      var subtotal = calculateCartSubtotal();
+      for (var id in cart) {
+        var item = cart[id];
+        var itemSubtotal = item.price * item.quantity;
+        var row = document.createElement('tr');
+        row.innerHTML =
+          '<td>' + item.name + '</td>' +
+          '<td>$' + item.price.toFixed(2) + '</td>' +
+          '<td>' + item.quantity + '</td>' +
+          '<td>$' + itemSubtotal.toFixed(2) + '</td>' +
+          '<td><button onclick="removeFromCart(\'' + id + '\')">Remove</button></td>';
+        tbody.appendChild(row);
+      }
+      document.getElementById('totalAmount').innerText = subtotal.toFixed(2);
+      document.getElementById('shippingCost').innerText = shippingCost.toFixed(2);
+      var grandTotal = subtotal + shippingCost;
+      document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
+    }
+
+    /***** Inventory Checkout (Firestore) *****/
+    // Process each cart item by decrementing its inventory in Firestore
+    function checkoutInventory() {
+      var promises = [];
+      for (var id in cart) {
+        promises.push(processCartItem(id, cart[id].quantity));
+      }
+      return Promise.all(promises);
+    }
+
+    function processCartItem(productId, quantity) {
+      var productRef = db.collection('inventory').doc(productId);
+      return db.runTransaction(function(transaction) {
+        return transaction.get(productRef).then(function(doc) {
+          if (!doc.exists) {
+            throw 'Product ' + productId + ' does not exist.';
+          }
+          var stock = doc.data().stock;
+          if (stock < quantity) {
+            throw 'Not enough stock for ' + productId + '. Available: ' + stock;
+          }
+          transaction.update(productRef, { stock: stock - quantity });
+        });
+      });
+    }
+
+    /***** PayPal Button Integration *****/
+    // Render the PayPal button; when clicked, it creates an order for (subtotal + shipping)
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        var subtotal = calculateCartSubtotal();
+        var finalTotal = subtotal + shippingCost;
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: finalTotal.toFixed(2)
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Payment successful; now process inventory updates.
+          checkoutInventory()
+            .then(function() {
+              alert('Transaction completed by ' + details.payer.name.given_name + '.');
+              // Clear the cart after successful payment and inventory update.
+              cart = {};
+              updateCartUI();
+            })
+            .catch(function(error) {
+              console.error('Inventory update error:', error);
+              alert('Payment succeeded, but inventory update failed: ' + error);
+            });
+        });
+      },
+      onError: function(err) {
+        console.error('PayPal error:', err);
+        alert('Payment error: ' + err);
+      }
+    }).render('#paypal-button-container');
+  </script>
 </body>
 </html>
