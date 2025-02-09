@@ -1,7 +1,12 @@
 # Sample site navigation bar links
-
 - title: Home
+  url: /home
+- title: Shop
   url: /
+- title: Products
+  url: /products
+- title: About us
+  url: /aboutus
 # - title: Posts
 #   url: /posts/
 # - title: Categories

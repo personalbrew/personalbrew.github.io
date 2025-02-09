@@ -1,0 +1,10 @@
+- id: p0
+  name: "Product 0"
+  price: 10.00
+  link: "/products/product0/product0.html"      # link to the product directory (with images and product page)
+  image: "/products/product0/image0.png"
+- id: p1
+  name: "Product 1"
+  price: 20.00
+  link: "/products/product1/product1.html"
+  image: "/products/product1/image1.png"
