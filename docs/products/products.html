@@ -4,30 +4,31 @@ title: ""
 permalink: /products/
 ---
 
+<style>
+    .product-grid {
+      display: flex;
+      gap: 20px;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .product-item {
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+    }
+</style>
+
 <h1></h1>
-<div class="product-grid">
-	<div class="product-item">
-		<a href="{{ site.baseurl }}/products/product0/product0.html">
-			<img src="{{ site.baseurl }}/products/product0/image0.png" alt="Product 0">
-		</a>
-		<p>Product 0 Name</p>
-	</div>
-	<div class="product-item">
-		<a href="{{ site.baseurl }}/products/product1/product1.html">
-			<img src="{{ site.baseurl }}/products/product1/image1.png" alt="Product 1">
-		</a>
-		<p>Product 1 Name</p>
-	</div>
-	<div class="product-item">
-		<a href="{{ site.baseurl }}/products/product2/product2.html">
-			<img src="{{ site.baseurl }}/products/product2/image2.png" alt="Product 2">
-		</a>
-		<p>Product 2 Name</p>
-	</div>
-	<div class="product-item">
-		<a href="{{ site.baseurl }}/products/product3/product3.html">
-			<img src="{{ site.baseurl }}/products/product3/image3.png" alt="Product 3">
-		</a>
-		<p>Product 3 Name</p>
-	</div>
-</div>
+
+<!-- Product Grid (generated from YAML) -->
+	  <div class="product-grid">
+		{% for product in site.data.products %}
+		<h2>{{ product.name }}</h2>
+		<div class="product-item" data-id="{{ product.id }}">
+		  <a href="{{ product.link }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+          </a>
+		</div>
+		<h1></h1>
+		{% endfor %}
+	  </div>
