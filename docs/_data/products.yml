@@ -1,10 +1,15 @@
 - id: p0
-  name: "Product 0"
-  price: 10.00
+  name: "Gloria Washed"
+  price: 19.90
   link: "/products/product0/product0.html"      # link to the product directory (with images and product page)
   image: "/products/product0/image0.png"
 - id: p1
-  name: "Product 1"
-  price: 20.00
+  name: "Gloria Natural"
+  price: 19.90
   link: "/products/product1/product1.html"
   image: "/products/product1/image1.png"
+- id: p2
+  name: "Product 2"
+  price: 13.30
+  link: "/products/product2/product2.html"
+  image: "/products/product2/image2.png"
