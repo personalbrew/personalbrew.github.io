@@ -143,7 +143,7 @@ entries_layout: list
               Shipping 
               <select id="shipping-country">
                 <option value="Germany">Germany</option>
-                <option value="International">International</option>
+                <option value="EU">EU-wide</option>
               </select>
               :
             </td>
@@ -177,7 +177,7 @@ entries_layout: list
     // Load shipping costs from YAML
     var shippingCosts = {
       "Germany": {{ site.data.shipping_cost.Germany | jsonify }},
-      "International": {{ site.data.shipping_cost.International | jsonify }}
+      "EU": {{ site.data.shipping_cost.EU | jsonify }}
     };
     function getShippingCost(country) {
       return shippingCosts[country] || 0;
@@ -215,13 +215,9 @@ entries_layout: list
     const cartTableBody = document.querySelector('#cart-table tbody');
     cartTableBody.innerHTML = '';
 
-    let subtotal = 0;
-    let hasItems = false;
-
     // Render cart items and compute subtotal
     for (const id in cart) {
       const item = cart[id];
-      hasItems = true;
 
       const row = document.createElement('tr');
       row.innerHTML =
@@ -234,92 +230,41 @@ entries_layout: list
         '<td>' + (item.product.price * item.quantity).toFixed(2) + " €" + '</td>';
 
       cartTableBody.appendChild(row);
-      subtotal += item.product.price * item.quantity;
     }
-    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " €";
 
-    // Determine shipping based on dropdown selection (default to "Germany" if not found)
-    const existingShippingDropdown = document.getElementById('shipping-country');
-    let selectedCountry = existingShippingDropdown ? existingShippingDropdown.value : "Germany";
-    const shippingCost = getShippingCost(selectedCountry);
-    
-    // Apply coupon if one is active
-    let couponDiscount = 0;
-    let couponLineText = "";
-    if (appliedCoupon) {
-      const couponAction = appliedCoupon.action;
-      if (couponAction === "noshipping") {
-        // Remove shipping cost and show its negative value as discount
-        couponDiscount = shippingCost;
-        couponLineText = "- " + couponDiscount.toFixed(2) + " € (Shipping)";
-      } else if (!isNaN(couponAction)) { // percentage discount
-        let percentage = parseFloat(couponAction);
-        couponDiscount = subtotal * (percentage / 100);
-        couponLineText = "- " + couponDiscount.toFixed(2) + " € (" + percentage + "%)";
-      } else if (couponAction.startsWith("p") && couponAction.includes("g")) {
-        // Pattern: pXgY (e.g., p2g3 means: pay for 2 of 3 items)
-        let match = couponAction.match(/^p(\d+)g(\d+)$/);
-        if (match) {
-          let X = parseInt(match[1], 10);
-          let Y = parseInt(match[2], 10);
-          // Count total items (each unit counts)
-          let totalItems = 0;
-          for (let id in cart) {
-            totalItems += cart[id].quantity;
-          }
-          if (totalItems >= Y) {
-            // Create an array of individual prices
-            let prices = [];
-            for (let id in cart) {
-              let item = cart[id];
-              for (let i = 0; i < item.quantity; i++) {
-                prices.push(item.product.price);
-              }
-            }
-            // Sort ascending so that the cheapest prices come first
-            prices.sort((a, b) => a - b);
-            let discountCount = Y - X;
-            let selected = prices.slice(0, discountCount);
-            // Discount equals the sum of the cheapest (Y - X) items
-            couponDiscount = selected.reduce((sum, price) => sum + price, 0);
-            couponLineText = "- " + couponDiscount.toFixed(2) + " € (p" + X + "g" + Y + ")";
-          }
-        }
-      }
-    }
-    const finalTotal = subtotal + shippingCost - couponDiscount;
+    const totals = computeTotals()
 
     // Build the totals from scratch
     const tfoot = document.querySelector('#cart-table tfoot');
     const totalsHTML = `
       <tr>
         <td colspan="3">Subtotal:</td>
-        <td id="cart-subtotal">${subtotal.toFixed(2)} €</td>
+        <td id="cart-subtotal">${totals.subtotal.toFixed(2)} €</td>
       </tr>
       <tr>
         <td colspan="3">
           Shipping 
           <select id="shipping-country">
-            <option value="Germany"${selectedCountry === "Germany" ? " selected" : ""}>Germany</option>
-            <option value="International"${selectedCountry === "International" ? " selected" : ""}>International</option>
+            <option value="Germany"${totals.selectedCountry === "Germany" ? " selected" : ""}>Germany</option>
+            <option value="EU"${totals.selectedCountry === "EU" ? " selected" : ""}>EU-wide</option>
           </select>:
         </td>
-        <td id="cart-shipping">${shippingCost.toFixed(2)} €</td>
+        <td id="cart-shipping">${totals.shippingCost.toFixed(2)} €</td>
       </tr>
-      ${appliedCoupon && couponDiscount > 0
-        ? `<tr id="row-coupon"><td colspan="3">Coupon Discount:</td><td>${couponLineText}</td></tr>`
+      ${appliedCoupon && totals.couponDiscount > 0
+        ? `<tr id="row-coupon"><td colspan="3">Coupon Discount:</td><td>${totals.couponLineText}</td></tr>`
         : ""
       }
       <tr id="row-total">
         <td colspan="3">Total:</td>
-        <td>${finalTotal.toFixed(2)} €</td>
+        <td>${totals.finalTotal.toFixed(2)} €</td>
       </tr>
     `;
     tfoot.innerHTML = totalsHTML;
 
     // Reattach the event listener for the newly created shipping dropdown
     document.getElementById('shipping-country').addEventListener('change', updateCartUI);
-
+    const hasItems = Object.keys(cart).length > 0;
     // Show or hide the cart and PayPal button based on whether there are items
     document.getElementById('cart').style.display = hasItems ? 'block' : 'none';
     document.getElementById('paypal-button-container').style.display = hasItems ? 'block' : 'none';
@@ -409,7 +354,6 @@ entries_layout: list
 document.getElementById('apply-coupon').addEventListener('click', function() {
   var code = document.getElementById('coupon-code').value.trim();
   if (!code) {
-    document.getElementById('coupon-message').textContent = "Please enter a coupon code.";
     return;
   }
 
@@ -454,51 +398,80 @@ document.getElementById('apply-coupon').addEventListener('click', function() {
       });
     }
 
+    /***** Compute Totals *****/
+  function computeTotals() {
+    // Compute subtotal from all cart items.
+    let subtotal = 0;
+    for (const id in cart) {
+      subtotal += cart[id].product.price * cart[id].quantity;
+    }
+    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " €";
+
+    // Get selected shipping country (default to "Germany" if dropdown not found).
+    const shippingDropdown = document.getElementById('shipping-country');
+    let selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
+    const shippingCost = getShippingCost(selectedCountry);
+
+    // Calculate coupon discount (if a coupon is applied)
+    let couponDiscount = 0;
+    let couponLineText = "";
+    if (appliedCoupon) {
+      const couponAction = appliedCoupon.action;
+      if (couponAction === "noshipping") {
+        // Remove shipping cost and show discount equal to shipping cost.
+        couponDiscount = shippingCost;
+        couponLineText = "- " + couponDiscount.toFixed(2) + " € (Shipping)";
+      } else if (!isNaN(couponAction)) { // Numeric percentage discount
+        let percentage = parseFloat(couponAction);
+        couponDiscount = subtotal * (percentage / 100);
+        couponLineText = "- " + couponDiscount.toFixed(2) + " € (" + percentage + "%)";
+      } else if (couponAction.startsWith("p") && couponAction.includes("g")) {
+        // Pattern: pXgY (e.g., p2g3 means: pay for 2 of 3 items)
+        let match = couponAction.match(/^p(\d+)g(\d+)$/);
+        if (match) {
+          let X = parseInt(match[1], 10);
+          let Y = parseInt(match[2], 10);
+          // Count total items in the cart.
+          let totalItems = 0;
+          for (let id in cart) {
+            totalItems += cart[id].quantity;
+          }
+          if (totalItems >= Y) {
+            // Create an array with individual item prices.
+            let prices = [];
+            for (let id in cart) {
+              let item = cart[id];
+              for (let i = 0; i < item.quantity; i++) {
+                prices.push(item.product.price);
+              }
+            }
+            // Sort ascending so that the cheapest prices come first.
+            prices.sort((a, b) => a - b);
+            let discountCount = Y - X;
+            let selected = prices.slice(0, discountCount);
+            couponDiscount = selected.reduce((sum, price) => sum + price, 0);
+            couponLineText = "- " + couponDiscount.toFixed(2) + " € (p" + X + "g" + Y + ")";
+          }
+        }
+      }
+    }
+
+    // Final total = subtotal + shipping cost - coupon discount.
+    const finalTotal = subtotal + shippingCost - couponDiscount;
+
+    // Return all computed totals.
+    return {subtotal, shippingCost, couponDiscount, couponLineText, finalTotal, selectedCountry};
+  }
+
     // Render PayPal button (using the final total after coupon adjustments)
     paypal.Buttons({
       createOrder: function(data, actions) {
-        // Recalculate subtotal
-        const subtotal = Object.keys(cart).reduce((sum, id) => sum + cart[id].product.price * cart[id].quantity, 0);
-        const selectedCountry = document.getElementById('shipping-country') ? 
-                                document.getElementById('shipping-country').value : "Germany";
-        let shippingCost = getShippingCost(selectedCountry);
-        let couponDiscount = 0;
-        if (appliedCoupon) {
-          const couponAction = appliedCoupon.action;
-          if (couponAction === "noshipping") {
-            couponDiscount = shippingCost;
-          } else if (!isNaN(couponAction)) {
-            let percentage = parseFloat(couponAction);
-            couponDiscount = subtotal * (percentage / 100);
-          } else if (couponAction.startsWith("p") && couponAction.includes("g")) {
-            let match = couponAction.match(/^p(\d+)g(\d+)$/);
-            if (match) {
-              let X = parseInt(match[1], 10);
-              let Y = parseInt(match[2], 10);
-              let totalItems = 0;
-              for (let id in cart) totalItems += cart[id].quantity;
-              if (totalItems >= Y) {
-                let prices = [];
-                for (let id in cart) {
-                  let item = cart[id];
-                  for (let i = 0; i < item.quantity; i++) {
-                    prices.push(item.product.price);
-                  }
-                }
-                prices.sort((a, b) => a - b);
-                let discountCount = Y - X;
-                let selected = prices.slice(0, discountCount);
-                couponDiscount = selected.reduce((sum, price) => sum + price, 0);
-              }
-            }
-          }
-        }
-        const finalTotal = subtotal + shippingCost - couponDiscount;
+        const totals = computeTotals()
         return actions.order.create({
           purchase_units: [{
             amount: {
               currency_code: "EUR",
-              value: finalTotal.toFixed(2)
+              value: totals.finalTotal.toFixed(2)
             }
           }]
         });

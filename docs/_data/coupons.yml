@@ -1,6 +1,0 @@
-- name: WHATSSHIPPING
-  action: noshipping
-- name: TAKEITOFF10
-  action: 10
-- name: GITGUD
-  action: p3g4
