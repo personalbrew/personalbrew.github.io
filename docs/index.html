@@ -178,11 +178,6 @@ entries_layout: list
       return shippingCosts[country] || 0;
     }
 
-    // Load coupons from YAML into a JS object
-    var coupons = {};
-    {% for coupon in site.data.coupons %}
-      coupons["{{ coupon.name }}"] = "{{ coupon.action }}";
-    {% endfor %}
     // The currently applied coupon (if any)
     var appliedCoupon = null;
 
@@ -405,18 +400,29 @@ entries_layout: list
       });
     });
 
-    /***** Coupon Code Application *****/
-    document.getElementById('apply-coupon').addEventListener('click', function() {
-      var code = document.getElementById('coupon-code').value.trim();
-      if (coupons[code]) {
-        appliedCoupon = { code: code, action: coupons[code] };
-        document.getElementById('coupon-message').textContent = "Applied";
-      } else {
-        appliedCoupon = null;
-        document.getElementById('coupon-message').textContent = "Invalid";
-      }
-      updateCartUI();
-    });
+    /***** Coupon Code Application via Firebase *****/
+document.getElementById('apply-coupon').addEventListener('click', function() {
+  var code = document.getElementById('coupon-code').value.trim();
+  if (!code) {
+    document.getElementById('coupon-message').textContent = "Please enter a coupon code.";
+    return;
+  }
+
+  var couponRef = db.collection('coupons').doc(code);
+  couponRef.get().then(function(doc) {
+    if (doc.exists) {
+      appliedCoupon = { code: code, action: doc.data().action };
+      document.getElementById('coupon-message').textContent = "Applied";
+    } else {
+      appliedCoupon = null;
+      document.getElementById('coupon-message').textContent = "Invalid";
+    }
+    updateCartUI();
+  }).catch(function(error) {
+    console.error("Error fetching coupon:", error);
+    document.getElementById('coupon-message').textContent = "Error checking coupon.";
+  });
+});
 
     /***** Checkout: Inventory Update & PayPal Integration *****/
     function checkoutInventory() {
@@ -512,14 +518,6 @@ entries_layout: list
       }
     }).render('#paypal-button-container');
 
-    // (Optional) If you want a shipping country dropdown in the cart totals,
-    // you can add it here and listen for changes. For this example, the default is "Germany".
-    // For example, if you add the following HTML in the totals section:
-    // Shipping ( <select id="shipping-country">
-    //   <option value="Germany">Germany</option>
-    //   <option value="International">International</option>
-    // </select> )
-    // then you should add:
     document.getElementById('shipping-country').addEventListener('change', updateCartUI);
 
     // Initial UI update
