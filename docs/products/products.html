@@ -4,31 +4,139 @@ title: ""
 permalink: /products/
 ---
 
-<style>
-    .product-grid {
-      display: flex;
-      gap: 20px;
-      border-radius: 8px;
-      padding: 20px;
-    }
-    .product-item {
-      padding: 10px;
-      width: 200px;
-      text-align: center;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <style>
+      /* Container for each product: two columns side‐by‐side */
+      .product-container {
+        display: flex;
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #999;
+      }
+      .left-column, .right-column {
+        width: 50%;
+      }
+      /* Table in left column: no borders */
+      .left-column table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .left-column table,
+      .left-column td {
+        border: none;
+      }
+      /* The first row of the table is the “headline” */
+      .product-name {
+        font-weight: bold;
+        text-align: left;
+        padding: 0px;
+      }
+      /* Make sure the product image scales nicely */
+      .right-column img {
+        max-width: 100%;
+        width: 200px;
+        height: auto;
+        display: block;
+        padding: 10px
+      }
+      table {
+  border-collapse: collapse; /* Ensures borders and spacing collapse */
+}
 
-<h1></h1>
+table tr,
+table td {
+  margin: 0;
+  padding: 0;       /* Removes default padding */
+  line-height: 1;   /* Reduces extra vertical space */
+}
 
-<!-- Product Grid (generated from YAML) -->
-	  <div class="product-grid">
-		{% for product in site.data.products %}
-		<h2>{{ product.name }}</h2>
-		<div class="product-item" data-id="{{ product.id }}">
-		  <a href="{{ product.link }}">
+/* Optionally, if you still want a little space inside cells */
+table td {
+  padding: 2px; /* Adjust as needed */
+}
+
+div.gap {
+  overflow: hidden;
+  height: 0px;
+  width: 0px;
+}
+
+    </style>
+  </head>
+  <body>
+    <h2>Current products</h2>
+    <!-- Loop over the products (assuming the YAML file is in site.data.products) -->
+    {% for product in site.data.products %}
+      <div class="product-container">
+        <!-- Left column: a 2-column x 8-row table -->
+        <div class="left-column">
+          <table id="product-table">
+            <!-- First row: product name spanning both columns -->
+            <tr>
+              <td colspan="2" class="product-name">{{ product.name }}</td>
+            </tr>
+              <tr>
+                <td>Country, Region: </td>
+                <td>Colombia, Huila</td>
+              </tr>
+              <tr>
+                <td>Farm, Farmer: </td>
+                <td>Nestor Lasso</td>
+              </tr>
+              <tr>
+                <td>Variety: </td>
+                <td>Gesha</td>
+              </tr>
+              <tr>
+                <td>Process: </td>
+                <td>Natural</td>
+              </tr>
+          </table>
+        </div>
+        <!-- Right column: clickable product image -->
+        <div class="right-column">
+          <a href="{{ product.link }}">
             <img src="{{ product.image }}" alt="{{ product.name }}">
           </a>
-		</div>
-		<h1></h1>
-		{% endfor %}
-	  </div>
+        </div>
+      </div>
+    {% endfor %}
+  </body>
+</html>
+
+<div class="gap" style="height:100px"></div>
+
+</head>
+<body>
+  <h2>Archive</h2>
+  <!-- Loop over the products (assuming the YAML file is in site.data.products) -->
+  {% for product in site.data.products_archive %}
+    <div class="product-container">
+      <!-- Left column: a 2-column x 8-row table -->
+        <div class="left-column">
+          <table id="product-table">
+            <!-- First row: product name spanning both columns -->
+            <tr>
+              <td colspan="2" class="product-name">{{ product.name }}</td>
+            </tr>
+            <tr>
+              <td>Release date:</td>
+              <td class="product-release-date">{{ product.release }}</td>
+            </tr>
+          </table>
+        </div>
+      <!-- Right column: clickable product image -->
+      <div class="right-column">
+        <a href="{{ product.link }}">
+          <img src="{{ product.image }}" alt="{{ product.name }}">
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</body>
+</html>
