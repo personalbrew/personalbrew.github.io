@@ -33,10 +33,21 @@ entries_layout: list
     .product-item {
       border: 1px solid #ccc;
       padding: 10px;
-      width: 170px;
+      width: 200px;
       text-align: center;
       position: relative;
     }
+    @media (max-width: 800px) {
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+    /* Show two items per row with a little gap */
+    width: calc(50% - 10px);
+  }
+}
+
     .product-item img {
       max-width: 100%;
     }
