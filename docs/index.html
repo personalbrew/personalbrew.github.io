@@ -56,9 +56,15 @@ entries_layout: list
       font-weight: bold;
       margin: 10px 0;
     }
+    .weight {
+      font-size: 0.85em;
+      margin: 0px 10px;
+      text-align: right;
+    }
     .price {
       font-size: 0.9em;
-      margin: 10px 10px;
+      margin: 0px 10px;
+      text-align: left;
     }
     .add-to-cart {
       width: 100%;
@@ -120,6 +126,7 @@ entries_layout: list
         <img src="products/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
       </a>
       <p class="name">{{ product.name }}</p>
+      <p class="weight">{{ product.grammage }} g</p>
       <p class="price" style="text-align:left">
         {{ product.price | number_format: 2 }} €
         <span style="float:right;font-size:0.85em;">(
