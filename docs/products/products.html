@@ -100,8 +100,8 @@ div.gap {
         </div>
         <!-- Right column: clickable product image -->
         <div class="right-column">
-          <a href="{{ product.link }}">
-            <img src="{{ product.image }}" alt="{{ product.name }}">
+          <a href="{{ product.unique-name }}">
+            <img src="{{ product.unique-name}}/image0.jpg" alt="{{ product.name }}">
           </a>
         </div>
       </div>
@@ -132,8 +132,8 @@ div.gap {
         </div>
       <!-- Right column: clickable product image -->
       <div class="right-column">
-        <a href="{{ product.link }}">
-          <img src="{{ product.image }}" alt="{{ product.name }}">
+        <a href="archive/{{ product.unique-name }}">
+          <img src="archive/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
         </a>
       </div>
     </div>

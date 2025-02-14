@@ -49,10 +49,10 @@ markdown: kramdown
 feed:
   path: atom.xml
   
-css_dir: assets/css
-sass:
-  sass_dir: assets/css/skins  # Change this to match your actual SCSS directory
-  style: compressed  # or :expanded for more readable output
+#css_dir: assets/css
+#sass:
+#  sass_dir: assets/css/skins  # Change this to match your actual SCSS directory
+#  style: compressed  # or :expanded for more readable output
 
 # Pagination - https://jekyllrb.com/docs/pagination/
 # paginate: 10
@@ -82,6 +82,15 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-datapage-generator
+  
+page_gen:dirs: true
+page_gen:
+  - data: 'products'          # This tells it to use _data/products.yml
+    name: 'unique-name'           # This will be used to name the generated pages
+    template: 'product'  # The layout file to use (placed in _layouts)
+    title: 'name'
+
 
 # Front Matter Defaults
 defaults:
@@ -111,15 +120,3 @@ footer_links:
     url: https://www.instagram.com/personalbrewcoffee/profilecard/?igsh=MXV2ZmswdzB2NzRvNQ==
     #icon: fas fa-rss-square
     icon: fab fa-instagram
-    
-navigation:
-  - title: Home
-    url: /
-  - title: Products
-    url: /products/
-    
-#include:
-#  - products/product0
-#  - products/product1
-#  - products/product2
-#  - products/product3

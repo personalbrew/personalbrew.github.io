@@ -58,7 +58,7 @@ entries_layout: list
     }
     .price {
       font-size: 0.9em;
-      margin: 10px 0;
+      margin: 10px 10px;
     }
     .add-to-cart {
       width: 100%;
@@ -116,11 +116,19 @@ entries_layout: list
   <div class="product-grid">
     {% for product in site.data.products %}
     <div class="product-item" data-id="{{ product.id }}">
-      <a href="{{ product.link }}">
-        <img src="{{ product.image }}" alt="{{ product.name }}">
+      <a href="products/{{ product.unique-name }}">
+        <img src="products/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
       </a>
       <p class="name">{{ product.name }}</p>
-      <p class="price">{{ product.price | number_format: 2 }} €</p>
+      <p class="price" style="text-align:left">
+        {{ product.price | number_format: 2 }} €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write({{ product.price }}*1000/{{ product.grammage }}); 
+        </script>
+         €/kg)
+        </span>
+      </p>
       <!-- Button with data-id; will be disabled when out of stock -->
       <button class="add-to-cart" data-id="{{ product.id }}">Add to cart</button>
     </div>
@@ -203,8 +211,6 @@ entries_layout: list
         this.id = id;
         this.name = name;
         this.price = parseFloat(price);
-        this.link = link;
-        this.image = image;
       }
     }
     const products = [];
@@ -212,9 +218,7 @@ entries_layout: list
       products.push(new Product(
         "{{ product.id }}",
         "{{ product.name }}",
-        "{{ product.price }}",
-        "{{ product.link }}",
-        "{{ product.image }}"
+        "{{ product.price }}"
       ));
     {% endfor %}
 

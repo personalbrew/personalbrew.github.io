@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <style>
+    div.gap {
+      overflow: hidden;
+      height: 0px;
+      width: 0px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{{ page.title }}</h1>
+  </header>
+  <section>
+    <img src="image0.jpg" alt="{{ page.name }}">
+    <table>
+    <tr><td>Price </td> <td>{{ page.price }} €</td></tr>
+    <tr><td>Bag weight </td> <td>{{page.grammage}} g</td></tr>
+      <tr><td>
+        Price per kilo </td> <td>
+        <script> 
+          document.write({{ page.price }}*1000/{{ page.grammage }}); 
+        </script>
+       €/kg
+      </td></tr>
+      <tr><td>Released </td> <td>{{ page.release }}</td></tr>
+  </table>
+  <div class="gap" style="height:30px"></div>
+  <p><h2>Details</h2></p>
+  <table id="product-table">
+    <!-- First row: product name spanning both columns -->
+    <tr>
+      <td colspan="2" class="product-name">{{ product.name }}</td>
+    </tr>
+      <tr>
+        <td>Country, Region: </td>
+        <td>Colombia, Huila</td>
+      </tr>
+      <tr>
+        <td>Farm, Farmer: </td>
+        <td>Nestor Lasso</td>
+      </tr>
+      <tr>
+        <td>Variety: </td>
+        <td>Gesha</td>
+      </tr>
+      <tr>
+        <td>Process: </td>
+        <td>Natural</td>
+      </tr>
+  </table>
+    <!-- You can add more product details here -->
+     <p><h2></h2>{{page.details}}</p>
+  </section>
+  <footer>
+    <!-- <a href="/shop.html">Back to shop</a> -->
+  </footer>
+</body>
+</html>
