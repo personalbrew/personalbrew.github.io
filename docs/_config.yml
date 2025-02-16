@@ -88,7 +88,7 @@ page_gen:dirs: true
 page_gen:
   - data: 'products'          # This tells it to use _data/products.yml
     name: 'unique-name'           # This will be used to name the generated pages
-    template: 'product'  # The layout file to use (placed in _layouts)
+    template: 'product_template'  # The layout file to use (placed in _layouts)
     title: 'name'
 
 
