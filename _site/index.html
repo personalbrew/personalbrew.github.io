@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Personal Brew Coffee | Lightly roasted filter coffee creating your personal experience.</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Personal Brew Coffee" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Lightly roasted filter coffee creating your personal experience." />
+<meta property="og:description" content="Lightly roasted filter coffee creating your personal experience." />
+<link rel="canonical" href="https://personalbrew.github.io/" />
+<meta property="og:url" content="https://personalbrew.github.io/" />
+<meta property="og:site_name" content="Personal Brew Coffee" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Personal Brew Coffee" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Lightly roasted filter coffee creating your personal experience.","headline":"Personal Brew Coffee","name":"Personal Brew Coffee","url":"https://personalbrew.github.io/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/default.css">
+
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Personal Brew Coffee" href="/atom.xml">
+<!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+<link rel="icon" type="image/png" href="/images/favicon/./favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/images/favicon/./favicon.svg" />
+<link rel="shortcut icon" href="/images/favicon/./favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/./apple-touch-icon.png" />
+<link rel="manifest" href="/images/favicon/./site.webmanifest" />
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--home  ">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/home">Home</a></li><li><a href="/">Shop</a></li><li><a href="/products">Products</a></li><li><a href="/aboutus">About us</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <h1 class="site-title animated fadeIn"><a href="/">Personal Brew Coffee</a></h1>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Lightly roasted filter coffee creating your personal experience.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+	
+    <main id="main" class="main-content" aria-label="Content">
+  <article>
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title"></h1>
+        
+      </header>
+      <div class="page-content">
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Shop Cart Example</title>
+  
+  <!-- Firebase Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase config -->
+  <script src="/scripts/firebase-config.js"></script>
+  
+  <!-- PayPal SDK (replace YOUR_PAYPAL_CLIENT_ID with your actual client id) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ASvyCegv19q4XcgYlk94h1PTj0kslZMtWN89mTSo2S_XC0PAu5ValW5ngaFHJ7vGinOP12HmDK6be9El&currency=EUR"></script>
+  
+  <style>
+    /* Product Grid Styling */
+    .product-grid {
+      display: flex;
+      background-color: #fafafa; /* lighter grey */
+      flex-wrap: wrap;
+      gap: 10px;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+      position: relative;
+    }
+    @media (max-width: 800px) {
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+    /* Show two items per row with a little gap */
+    width: calc(50% - 10px);
+  }
+}
+
+    .product-item img {
+      max-width: 100%;
+    }
+    .name {
+      font-size: 1.0em;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .weight {
+      font-size: 0.85em;
+      margin: 0px 10px;
+      text-align: right;
+    }
+    .price {
+      font-size: 0.9em;
+      margin: 0px 10px;
+      text-align: left;
+    }
+    .add-to-cart {
+      width: 100%;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .add-to-cart:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Cart Container Styling */
+    #cart-container {
+      margin-top: 40px;
+      background-color: #fafafa; /* lighter grey */
+      border-radius: 8px;
+      padding: 20px;
+    }
+    #cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    #cart-table th, #cart-table td { 
+      border: none; 
+      padding: 8px; 
+    }
+    #cart-table tr { 
+      border: none; 
+    }
+    #cart-table tfoot tr { 
+      border-top: 1px solid #999; 
+    }
+    /* Right align totals */
+    #cart-table tfoot td { 
+      text-align: right; 
+    }
+    #coupon-container {
+      margin: 20px 0;
+    }
+    #coupon-container input {
+      padding: 4px;
+      margin-left: 8px;
+    }
+    #coupon-container button {
+      padding: 4px 8px;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1></h1>
+  
+  <!-- Product Grid (generated from YAML) -->
+  <div class="product-grid">
+    
+    <div class="product-item" data-id="p0">
+      <a href="products/2501-gloria-washed">
+        <img src="products/2501-gloria-washed/image0.jpg" alt="Gloria Washed">
+      </a>
+      <p class="name">Gloria Washed</p>
+      <p class="weight">125 g</p>
+      <p class="price" style="text-align:left">
+        11.9 €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write(11.9*1000/125); 
+        </script>
+         €/kg)
+        </span>
+      </p>
+      <!-- Button with data-id; will be disabled when out of stock -->
+      <button class="add-to-cart" data-id="p0">Add to cart</button>
+    </div>
+    
+    <div class="product-item" data-id="p1">
+      <a href="products/2501-gloria-natural">
+        <img src="products/2501-gloria-natural/image0.jpg" alt="Gloria Natural">
+      </a>
+      <p class="name">Gloria Natural</p>
+      <p class="weight">125 g</p>
+      <p class="price" style="text-align:left">
+        11.9 €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write(11.9*1000/125); 
+        </script>
+         €/kg)
+        </span>
+      </p>
+      <!-- Button with data-id; will be disabled when out of stock -->
+      <button class="add-to-cart" data-id="p1">Add to cart</button>
+    </div>
+    
+    <div class="product-item" data-id="p2">
+      <a href="products/2501-p2-process">
+        <img src="products/2501-p2-process/image0.jpg" alt="Product 2">
+      </a>
+      <p class="name">Product 2</p>
+      <p class="weight">125 g</p>
+      <p class="price" style="text-align:left">
+        9.9 €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write(9.9*1000/125); 
+        </script>
+         €/kg)
+        </span>
+      </p>
+      <!-- Button with data-id; will be disabled when out of stock -->
+      <button class="add-to-cart" data-id="p2">Add to cart</button>
+    </div>
+    
+  </div>
+  
+  <!-- Cart Container -->
+  <div id="cart-container">
+    <h2>Your Cart</h2>
+	<!--
+    <small>Free shipping with 3 or more bags</small>
+	 -->
+    <div id="cart" style="display: none;">
+      <table id="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Subtotal:</td>
+            <td id="cart-subtotal"></td>
+          </tr>
+          <tr>
+            <!-- Shipping row now includes a dropdown to select shipping country -->
+            <td colspan="3">
+              Shipping 
+              <select id="shipping-country">
+                <option value="Germany">Germany</option>
+                <option value="EU">EU-wide</option>
+              </select>
+              :
+            </td>
+            <td id="cart-shipping"></td>
+          </tr>
+        </tfoot>
+      </table>
+      
+      <!-- Coupon Code Section -->
+      <div id="coupon-container">
+        <label for="coupon-code">Coupon:</label>
+        <input type="text" id="coupon-code">
+        <button id="apply-coupon">Apply</button>
+        <span id="coupon-message"></span>
+      </div>
+      
+      <!-- PayPal Button container (initially hidden) -->
+      <div id="paypal-button-container" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    /***** Firebase Initialization *****/
+    // Replace these with your Firebase project's configuration values.
+    var db = firebase.firestore();
+
+    /***** Global Variables *****/
+    // Available stock per product (populated from Firebase when products are added)
+    var availableStock = {};
+
+    // Load shipping costs from YAML
+    var shippingCosts = {
+      "Germany": 3.9,
+      "EU": 6.9
+    };
+    function getShippingCost(country) {
+      return shippingCosts[country] || 0;
+    }
+
+    // The currently applied coupon (if any)
+    var appliedCoupon = null;
+
+    /***** Product Class and List from YAML *****/
+    class Product {
+      constructor(id, name, price, link, image) {
+        this.id = id;
+        this.name = name;
+        this.price = parseFloat(price);
+      }
+    }
+    const products = [];
+    
+      products.push(new Product(
+        "p0",
+        "Gloria Washed",
+        "11.9"
+      ));
+    
+      products.push(new Product(
+        "p1",
+        "Gloria Natural",
+        "11.9"
+      ));
+    
+      products.push(new Product(
+        "p2",
+        "Product 2",
+        "9.9"
+      ));
+    
+
+    /***** Cart Variables *****/
+    const cart = {};
+
+    /***** Update Cart UI (and Totals, including coupon discount) *****/
+    function updateCartUI() {
+    const cartTableBody = document.querySelector('#cart-table tbody');
+    cartTableBody.innerHTML = '';
+
+    // Render cart items and compute subtotal
+    for (const id in cart) {
+      const item = cart[id];
+
+      const row = document.createElement('tr');
+      row.innerHTML =
+        '<td>' + item.product.name + '</td>' +
+        '<td>' +
+          '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', -1)">-</button>' +
+          '<span class="quantity">' + item.quantity + '</span>' +
+          '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', 1)">+</button>' +
+        '</td>' +
+        '<td>' + (item.product.price * item.quantity).toFixed(2) + " €" + '</td>';
+
+      cartTableBody.appendChild(row);
+    }
+
+    const totals = computeTotals()
+
+    // Build the totals from scratch
+    const tfoot = document.querySelector('#cart-table tfoot');
+    const totalsHTML = `
+      <tr>
+        <td colspan="3">Subtotal:</td>
+        <td id="cart-subtotal">${totals.subtotal.toFixed(2)} €</td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Shipping 
+          <select id="shipping-country">
+            <option value="Germany"${totals.selectedCountry === "Germany" ? " selected" : ""}>Germany</option>
+            <option value="EU"${totals.selectedCountry === "EU" ? " selected" : ""}>EU-wide</option>
+          </select>:
+        </td>
+        <td id="cart-shipping">${totals.shippingCost.toFixed(2)} €</td>
+      </tr>
+      ${appliedCoupon && totals.couponDiscount > 0
+        ? `<tr id="row-coupon"><td colspan="3">Coupon Discount:</td><td>${totals.couponLineText}</td></tr>`
+        : ""
+      }
+      <tr id="row-total">
+        <td colspan="3">Total:</td>
+        <td>${totals.finalTotal.toFixed(2)} €</td>
+      </tr>
+    `;
+    tfoot.innerHTML = totalsHTML;
+
+    // Reattach the event listener for the newly created shipping dropdown
+    document.getElementById('shipping-country').addEventListener('change', updateCartUI);
+    const hasItems = Object.keys(cart).length > 0;
+    // Show or hide the cart and PayPal button based on whether there are items
+    document.getElementById('cart').style.display = hasItems ? 'block' : 'none';
+    document.getElementById('paypal-button-container').style.display = hasItems ? 'block' : 'none';
+
+    // Update add-to-cart buttons based on stock status
+    updateAddToCartButtons();
+  }
+    /***** Update Add-to-Cart Buttons based on Stock *****/
+    function updateAddToCartButtons() {
+      document.querySelectorAll('.product-item').forEach(item => {
+        let id = item.getAttribute('data-id');
+        let btn = item.querySelector('.add-to-cart');
+        if (availableStock[id] !== undefined) {
+          if (cart[id] && cart[id].quantity >= availableStock[id]) {
+            btn.disabled = true;
+            btn.textContent = "Out of stock";
+          } else {
+            btn.disabled = false;
+            btn.textContent = "Add to cart";
+          }
+        }
+      });
+    }
+
+    /***** Update Quantity with Plus/Minus Buttons *****/
+    function updateQuantity(productId, change) {
+      // For plus button, check available stock first
+      if (change > 0) {
+        let available = availableStock[productId] || Infinity;
+        if (cart[productId].quantity >= available) {
+          alert("No more stock available for this product.");
+          return;
+        }
+      }
+      if (cart[productId]) {
+        const newQuantity = cart[productId].quantity + change;
+        if (newQuantity > 0) {
+          cart[productId].quantity = newQuantity;
+        } else {
+          delete cart[productId]; // Remove product if quantity becomes 0
+        }
+        updateCartUI();
+      }
+    }
+
+    /***** Add to Cart with Inventory Check *****/
+    function addToCart(productId) {
+      var productRef = db.collection('inventory').doc(productId);
+      productRef.get().then(function(doc) {
+        if (doc.exists) {
+          const currentStock = doc.data().stock;
+          // Store available stock globally
+          availableStock[productId] = currentStock;
+          const currentQuantity = cart[productId] ? cart[productId].quantity : 0;
+
+          if (currentQuantity < currentStock) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            if (cart[productId]) {
+              cart[productId].quantity++;
+            } else {
+              cart[productId] = { product: product, quantity: 1 };
+            }
+            updateCartUI();
+          } else {
+            // Instead of alerting, disable the Add to Cart button
+            const btn = document.querySelector('.product-item[data-id="' + productId + '"] .add-to-cart');
+            btn.disabled = true;
+            btn.textContent = "Out of stock";
+          }
+        } else {
+          console.error("Product " + productId + " not found in inventory.");
+        }
+      }).catch(function(error) {
+        console.error("Error fetching product stock:", error);
+      });
+    }
+
+    // Bind event listeners to all add-to-cart buttons
+    document.querySelectorAll('.add-to-cart').forEach(function(button) {
+      button.addEventListener('click', function() {
+        addToCart(this.getAttribute('data-id'));
+      });
+    });
+
+    /***** Coupon Code Application via Firebase *****/
+document.getElementById('apply-coupon').addEventListener('click', function() {
+  var code = document.getElementById('coupon-code').value.trim();
+  if (!code) {
+    return;
+  }
+
+  var couponRef = db.collection('coupons').doc(code);
+  couponRef.get().then(function(doc) {
+    if (doc.exists) {
+      appliedCoupon = { code: code, action: doc.data().action };
+      document.getElementById('coupon-message').textContent = "Applied";
+    } else {
+      appliedCoupon = null;
+      document.getElementById('coupon-message').textContent = "Invalid";
+    }
+    updateCartUI();
+  }).catch(function(error) {
+    console.error("Error fetching coupon:", error);
+    document.getElementById('coupon-message').textContent = "Error checking coupon.";
+  });
+});
+
+    /***** Checkout: Inventory Update & PayPal Integration *****/
+    function checkoutInventory() {
+      const promises = [];
+      for (const id in cart) {
+        promises.push(processCartItem(id, cart[id].quantity));
+      }
+      return Promise.all(promises);
+    }
+
+    function processCartItem(productId, quantity) {
+      var productRef = db.collection('inventory').doc(productId);
+      return db.runTransaction(function(transaction) {
+        return transaction.get(productRef).then(function(doc) {
+          if (!doc.exists) {
+            throw 'Product ' + productId + ' does not exist.';
+          }
+          const stock = doc.data().stock;
+          if (stock < quantity) {
+            throw 'Not enough stock for ' + productId + '. Available: ' + stock;
+          }
+          transaction.update(productRef, { stock: stock - quantity });
+        });
+      });
+    }
+
+    /***** Compute Totals *****/
+  function computeTotals() {
+    // Compute subtotal from all cart items.
+    let subtotal = 0;
+    for (const id in cart) {
+      subtotal += cart[id].product.price * cart[id].quantity;
+    }
+    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " €";
+
+    // Get selected shipping country (default to "Germany" if dropdown not found).
+    const shippingDropdown = document.getElementById('shipping-country');
+    let selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
+    const shippingCost = getShippingCost(selectedCountry);
+
+    // Calculate coupon discount (if a coupon is applied)
+    let couponDiscount = 0;
+    let couponLineText = "";
+    if (appliedCoupon) {
+      const couponAction = appliedCoupon.action;
+      if (couponAction === "noshipping") {
+        // Remove shipping cost and show discount equal to shipping cost.
+        couponDiscount = shippingCost;
+        couponLineText = "- " + couponDiscount.toFixed(2) + " € (Shipping)";
+      } else if (!isNaN(couponAction)) { // Numeric percentage discount
+        let percentage = parseFloat(couponAction);
+        couponDiscount = subtotal * (percentage / 100);
+        couponLineText = "- " + couponDiscount.toFixed(2) + " € (" + percentage + "%)";
+      } else if (couponAction.startsWith("p") && couponAction.includes("g")) {
+        // Pattern: pXgY (e.g., p2g3 means: pay for 2 of 3 items)
+        let match = couponAction.match(/^p(\d+)g(\d+)$/);
+        if (match) {
+          let X = parseInt(match[1], 10);
+          let Y = parseInt(match[2], 10);
+          // Count total items in the cart.
+          let totalItems = 0;
+          for (let id in cart) {
+            totalItems += cart[id].quantity;
+          }
+          if (totalItems >= Y) {
+            // Create an array with individual item prices.
+            let prices = [];
+            for (let id in cart) {
+              let item = cart[id];
+              for (let i = 0; i < item.quantity; i++) {
+                prices.push(item.product.price);
+              }
+            }
+            // Sort ascending so that the cheapest prices come first.
+            prices.sort((a, b) => a - b);
+            let discountCount = Y - X;
+            let selected = prices.slice(0, discountCount);
+            couponDiscount = selected.reduce((sum, price) => sum + price, 0);
+            couponLineText = "- " + couponDiscount.toFixed(2) + " € (p" + X + "g" + Y + ")";
+          }
+        }
+      }
+    }
+
+    // Final total = subtotal + shipping cost - coupon discount.
+    const finalTotal = subtotal + shippingCost - couponDiscount;
+
+    // Return all computed totals.
+    return {subtotal, shippingCost, couponDiscount, couponLineText, finalTotal, selectedCountry};
+  }
+
+    // Render PayPal button (using the final total after coupon adjustments)
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        const totals = computeTotals()
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              currency_code: "EUR",
+              value: totals.finalTotal.toFixed(2)
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Optionally inspect shipping address from PayPal here
+          checkoutInventory().then(function() {
+            alert("Transaction completed by " + details.payer.name.given_name);
+            // Clear cart after successful checkout
+            for (const id in cart) { delete cart[id]; }
+            updateCartUI();
+          }).catch(function(error) {
+            console.error("Inventory update error:", error);
+            alert("Payment succeeded, but inventory update failed: " + error);
+          });
+        });
+      },
+      onError: function(err) {
+        console.error("PayPal error:", err);
+        alert("Payment error: " + err);
+      }
+    }).render('#paypal-button-container');
+
+    document.getElementById('shipping-country').addEventListener('change', updateCartUI);
+
+    // Initial UI update
+    updateCartUI();
+  </script>
+</body>
+</html>
+
+
+<div class="entries-list"></div>
+
+
+        
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://www.instagram.com/personalbrewcoffee/profilecard/?igsh=MXV2ZmswdzB2NzRvNQ=="><i class="fab fa-instagram fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2025 Personal Brew Coffee. <a href="/impressum/">Impressum</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>
