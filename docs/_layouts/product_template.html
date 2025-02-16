@@ -50,6 +50,14 @@ layout: default
     .product-left-column, .additionals-left-column {
         width: 60%;
     }
+    .additionals-left-column table {
+      width: 100%; /* Forces the tables to take full width */
+      border-collapse: collapse;
+    }
+    .additionals-left-column td {
+  text-align: left; /* Ensures all content in tables aligns properly */
+  padding: 5px 10px; /* Adds some spacing */
+}
     .product-right-column {
       width: 40%;
       text-align: center;
@@ -121,6 +129,10 @@ layout: default
       text-align: left;
       padding: 7px 15px;
     }
+    #product-roaster-info tr:last-child td {
+  padding-bottom: 10px;
+}
+
   </style>
 </head>
 <body>
@@ -160,9 +172,6 @@ layout: default
       <div class="additionals-left-column">
         <table id="product-roaster-info">
           <tr><td><strong>Released: </strong></td> <td>{{ page.release }}</td></tr>
-          {% if page.variety %}
-          <tr><td><strong>Variety: </strong></td> <td>{{ page.variety }}</td></tr>
-          {% endif %} 
     
           {% if page.fob %}
           <tr><td><strong>Raw coffee price: </strong></td> <td>{{ page.process }} €/kg incl. shipping</td></tr>

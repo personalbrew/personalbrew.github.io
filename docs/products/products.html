@@ -18,13 +18,18 @@ permalink: /products/
         margin-bottom: 20px;
         border-bottom: 1px solid #999;
       }
-      .left-column, .right-column {
-        width: 50%;
+      .left-column {
+        width: 70%;
+      }
+      .right-column {
+        width: 30%;
       }
       /* Table in left column: no borders */
       .left-column table {
         width: 100%;
         border-collapse: collapse;
+        height: 80%;
+        margin: auto, 0;
       }
       .left-column table,
       .left-column td {
@@ -32,9 +37,10 @@ permalink: /products/
       }
       /* The first row of the table is the “headline” */
       .product-name {
+        font-size: 1.1em;
         font-weight: bold;
         text-align: left;
-        padding: 0px;
+        padding-bottom: 25px;
       }
       /* Make sure the product image scales nicely */
       .right-column img {
@@ -42,22 +48,24 @@ permalink: /products/
         width: 200px;
         height: auto;
         display: block;
-        padding: 10px
+        padding: 10px;
+        border-radius: 20px;
       }
       table {
   border-collapse: collapse; /* Ensures borders and spacing collapse */
 }
 
-table tr,
-table td {
-  margin: 0;
-  padding: 0;       /* Removes default padding */
-  line-height: 1;   /* Reduces extra vertical space */
-}
-
 /* Optionally, if you still want a little space inside cells */
 table td {
   padding: 2px; /* Adjust as needed */
+}
+.left-column table td:first-child {
+  width: 200px; /* Adjust to your preferred fixed size */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.left-column table td:last-child {
+  width: auto; /* Makes the second column take remaining space */
 }
 
 div.gap {
@@ -80,22 +88,22 @@ div.gap {
             <tr>
               <td colspan="2" class="product-name">{{ product.name }}</td>
             </tr>
-              <tr>
-                <td>Country, Region: </td>
-                <td>Colombia, Huila</td>
-              </tr>
-              <tr>
-                <td>Farm, Farmer: </td>
-                <td>Nestor Lasso</td>
-              </tr>
-              <tr>
-                <td>Variety: </td>
-                <td>Gesha</td>
-              </tr>
-              <tr>
-                <td>Process: </td>
-                <td>Natural</td>
-              </tr>
+            {% if product.origin %}
+            <tr><td>Origin: </td> <td>{{ product.origin }}</td></tr>
+            {% endif %} 
+      
+            {% if product.variety %}
+            <tr><td>Variety: </td> <td>{{ product.variety }}</td></tr>
+            {% endif %} 
+      
+            {% if product.process %}
+            <tr><td>Processing Method: </td> <td>{{ product.process }}</td></tr>
+            {% endif %}
+            
+            {% if product.tasting_notes %}
+            <tr><td>Tasting Notes: </td> <td>{{ product.tasting_notes }}</td></tr>
+            {% endif %}
+            </table>
           </table>
         </div>
         <!-- Right column: clickable product image -->
