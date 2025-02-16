@@ -37,19 +37,38 @@ layout: default
       margin: 30px auto;
       padding: 10px 20px;
       background: #eee;
-      border-radius: 8px;
+      border-radius: 6px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .product-container, .product-additionals {
+        display: flex;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #999;
+    }
+    .product-left-column, .additionals-left-column {
+        width: 60%;
+    }
+    .product-right-column {
+      width: 40%;
+      text-align: center;
+    }
+    .additionals-right-column {
+      width: 40%;               /* The column takes 40% of the parent container */
+      display: flex;
+      flex-direction: column;   /* stack the buttons vertically */
+      align-items: center;      /* center them horizontally within this 40% */
+      gap: 10px; 
     }
     .product-image {
       display: block;
       max-width: 100%;
       margin: 0 auto;
-      border-radius: 8px;
+      border-radius: 20px;
+      padding: 10px;
     }
     /* Product Information */
-    .product-info {
-      padding: 20px;
-    }
     .product-info h2 {
       color: #4a2c2a;
     }
@@ -64,87 +83,119 @@ layout: default
       margin: 5px 0;
     }
     /* Add to Cart Button */
-    .add-to-cart {
-      display: block;
-      width: 80%;
-      max-width: 300px;
-      margin: 20px auto;
+    .add-to-cart, .checkout-button {
+      display: block;           /* or inline-block */
+      width: 80%;               /* fill 80% of the column width, so you see the “center” margin */
+      max-width: 300px;         /* optional, so they don’t stretch too wide on bigger screens */
+      margin: 0 auto;           /* ensure the button is horizontally centered if narrower than 80% */
       padding: 12px;
       font-size: 1em;
-      background-color: #888888;
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+    }
+    .checkout-button {
+      padding: 7px 10px;
+    }
+    .add-to-cart {
+      background-color: #888888;
     }
     .add-to-cart:hover {
       background-color: #444444;
     }
     .checkout-button {
-      display: block;
-      width: 80%;
-      max-width: 300px;
-      margin: 20px auto;
-      padding: 8px;
-      font-size: 1em;
       background-color: #aaaaaa;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
     }
     .checkout-button:hover {
       background-color: #666666;
+    }
+    h1 {text-align: center;}
+    #product-info td:first-child, #product-roaster-info td:first-child {
+      text-align: left;
+    }
+    #product-info tr:last-child td, #product-pricing tr:last-child td {
+      border-bottom: none;
+    }
+    #product-info, #product-roaster-info, #product-pricing {
+      text-align: left;
+      padding: 7px 15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Product Title -->
-    <h2>{{ page.title }}</h2>
+    <h1 id="product-name">{{ page.title }}</h1>
+
+    <div class="product-container">
+      <!-- Left column: a 2-column x 8-row table -->
+      <div class="product-left-column">
+        <table id="product-info">
+          {% if page.origin %}
+          <tr><td><strong>Origin: </strong></td> <td>{{ page.origin }}</td></tr>
+          {% endif %} 
     
-    <!-- Product Image -->
-    <img class="product-image" src="image0.jpg">
+          {% if page.variety %}
+          <tr><td><strong>Variety: </strong></td> <td>{{ page.variety }}</td></tr>
+          {% endif %} 
     
-    <!-- Product Information -->
-    <div class="product-info">
-      <h2>Price: €{{ page.price }}</h2>
-      
-      {% if page.roast_level %}
-      <p><strong>Roast Level:</strong> {{ page.roast_level }}</p>
-      {% endif %}
-      
-      {% if page.origin %}
-      <p><strong>Origin:</strong> {{ page.origin }}</p>
-      {% endif %}
-      
-      {% if page.description %}
-      <p>{{ page.description }}</p>
-      {% endif %}
-      
-      <!-- Additional details -->
-      <div class="product-details">
-        {% if page.tasting_notes %}
-        <h3>Tasting Notes:</h3>
-        <p>{{ page.tasting_notes }}</p>
-        {% endif %}
-        
-        {% if page.process %}
-        <h3>Processing Method:</h3>
-        <p>{{ page.process }}</p>
-        {% endif %}
-        
-        {% if page.brew_suggestions %}
-        <h3>Brew Suggestions:</h3>
-        <p>{{ page.brew_suggestions }}</p>
-        {% endif %}
+          {% if page.process %}
+          <tr><td><strong>Processing Method: </strong></td> <td>{{ page.process }}</td></tr>
+          {% endif %}
+          
+          {% if page.tasting_notes %}
+          <tr><td><strong>Tasting Notes: </strong></td> <td>{{ page.tasting_notes }}</td></tr>
+          {% endif %}
+          </table>
       </div>
-      
-      <!-- Add to Cart Button -->
-      <button class="add-to-cart" onclick="addToCart('{{ page.id }}', '{{ page.name }}', {{ page.price }})">Add to Cart</button>
-      <button class="checkout-button" onclick="location.href='{{ site.url }}#cart'">Your cart</button>
+      <!-- Right column: clickable product image -->
+      <div class="product-right-column">
+          <a><img class="product-image", src="image0.jpg"></a>
+      </div>
     </div>
+
+    <div class="product-additionals">
+      <!-- Left column: a 2-column x 8-row table -->
+      <div class="additionals-left-column">
+        <table id="product-roaster-info">
+          <tr><td><strong>Released: </strong></td> <td>{{ page.release }}</td></tr>
+          {% if page.variety %}
+          <tr><td><strong>Variety: </strong></td> <td>{{ page.variety }}</td></tr>
+          {% endif %} 
+    
+          {% if page.fob %}
+          <tr><td><strong>Raw coffee price: </strong></td> <td>{{ page.process }} €/kg incl. shipping</td></tr>
+          {% endif %}
+    
+          {% if page.roaster_info %}
+          <tr><td><strong>Additional info: </strong></td> <td>{{ page.roaster_info }}</td></tr>
+          {% endif %}
+        </table>
+
+        <table id="product-pricing">
+          <tr><td><strong>Price: </strong></td> <td>{{ page.price }} €</td></tr>
+          <tr><td><strong>Bag weight: </strong></td> <td>{{page.grammage}} g</td></tr>
+          <tr><td><strong>Price per kilo: </strong></td><td>
+              <script> 
+                document.write({{ page.price }}*1000/{{ page.grammage }}); 
+              </script>€/kg</td>
+          </tr>
+        </table>
+      </div>
+      <!-- Right column: clickable product image -->
+      <div class="additionals-right-column">
+        <button class="add-to-cart" onclick="addToCart('{{ page.id }}', '{{ page.name }}', {{ page.price }})">Add to Cart</button>
+        <button class="checkout-button" onclick="location.href='{{ site.url }}#cart'">Your cart</button>
+      </div>
+    </div>
+
+
+    <div class="gap" style="height:10px"></div>
+    <p><h2></h2>{{page.details}}</p>
+
   </div>
+
 
   <!-- Global Cart Script -->
   <script>
