@@ -1,63 +1,197 @@
+---
+layout: default
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }}</title>
+  <h1></h1>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    div.gap {
-      overflow: hidden;
-      height: 0px;
-      width: 0px;
+    /* Basic Reset & Layout */
+    body {
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    /* Global Cart Icon */
+    .cart-icon {
+      position: relative;
+      display: inline-block;
+      font-size: 1.5em;
+    }
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background: #aaaaaa;
+      color: #fff;
+      border-radius: 100%;
+      padding: 0px 3px;
+      font-size: 0.75em;
+    }
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 10px 20px;
+      background: #eee;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .product-image {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+    /* Product Information */
+    .product-info {
+      padding: 20px;
+    }
+    .product-info h2 {
+      color: #4a2c2a;
+    }
+    .product-details {
+      margin-top: 20px;
+    }
+    .product-details h3 {
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .product-details p {
+      margin: 5px 0;
+    }
+    /* Add to Cart Button */
+    .add-to-cart {
+      display: block;
+      width: 80%;
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 12px;
+      font-size: 1em;
+      background-color: #888888;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .add-to-cart:hover {
+      background-color: #444444;
+    }
+    .checkout-button {
+      display: block;
+      width: 80%;
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 8px;
+      font-size: 1em;
+      background-color: #aaaaaa;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .checkout-button:hover {
+      background-color: #666666;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>{{ page.title }}</h1>
-  </header>
-  <section>
-    <img src="image0.jpg" alt="{{ page.name }}">
-    <table>
-    <tr><td>Price </td> <td>{{ page.price }} €</td></tr>
-    <tr><td>Bag weight </td> <td>{{page.grammage}} g</td></tr>
-      <tr><td>
-        Price per kilo </td> <td>
-        <script> 
-          document.write({{ page.price }}*1000/{{ page.grammage }}); 
-        </script>
-       €/kg
-      </td></tr>
-      <tr><td>Released </td> <td>{{ page.release }}</td></tr>
-  </table>
-  <div class="gap" style="height:30px"></div>
-  <p><h2>Details</h2></p>
-  <table id="product-table">
-    <!-- First row: product name spanning both columns -->
-    <tr>
-      <td colspan="2" class="product-name">{{ product.name }}</td>
-    </tr>
-      <tr>
-        <td>Country, Region: </td>
-        <td>Colombia, Huila</td>
-      </tr>
-      <tr>
-        <td>Farm, Farmer: </td>
-        <td>Nestor Lasso</td>
-      </tr>
-      <tr>
-        <td>Variety: </td>
-        <td>Gesha</td>
-      </tr>
-      <tr>
-        <td>Process: </td>
-        <td>Natural</td>
-      </tr>
-  </table>
-    <!-- You can add more product details here -->
-     <p><h2></h2>{{page.details}}</p>
-  </section>
-  <footer>
-    <!-- <a href="/shop.html">Back to shop</a> -->
-  </footer>
+  <div class="container">
+    <!-- Product Title -->
+    <h2>{{ page.title }}</h2>
+    
+    <!-- Product Image -->
+    <img class="product-image" src="image0.jpg">
+    
+    <!-- Product Information -->
+    <div class="product-info">
+      <h2>Price: €{{ page.price }}</h2>
+      
+      {% if page.roast_level %}
+      <p><strong>Roast Level:</strong> {{ page.roast_level }}</p>
+      {% endif %}
+      
+      {% if page.origin %}
+      <p><strong>Origin:</strong> {{ page.origin }}</p>
+      {% endif %}
+      
+      {% if page.description %}
+      <p>{{ page.description }}</p>
+      {% endif %}
+      
+      <!-- Additional details -->
+      <div class="product-details">
+        {% if page.tasting_notes %}
+        <h3>Tasting Notes:</h3>
+        <p>{{ page.tasting_notes }}</p>
+        {% endif %}
+        
+        {% if page.process %}
+        <h3>Processing Method:</h3>
+        <p>{{ page.process }}</p>
+        {% endif %}
+        
+        {% if page.brew_suggestions %}
+        <h3>Brew Suggestions:</h3>
+        <p>{{ page.brew_suggestions }}</p>
+        {% endif %}
+      </div>
+      
+      <!-- Add to Cart Button -->
+      <button class="add-to-cart" onclick="addToCart('{{ page.id }}', '{{ page.name }}', {{ page.price }})">Add to Cart</button>
+      <button class="checkout-button" onclick="location.href='{{ site.url }}#cart'">Your cart</button>
+    </div>
+  </div>
+
+  <!-- Global Cart Script -->
+  <script>
+    // Retrieve the current cart from localStorage or initialize an empty cart
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    // Save the cart back to localStorage
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Update the cart icon with the number of items
+    function updateCartCount() {
+      var cart = getCart();
+      var count = cart.reduce((acc, item) => acc + item.quantity, 0);
+      const hasItems = cart > 0;
+      document.getElementById('cart-count').textContent = count;
+      document.getElementById('checkout-button').style.display = hasItems ? 'block' : 'none';
+    }
+
+    // Add a product to the cart
+    function addToCart(id, name, price) {
+      var cart = getCart();
+      var found = false;
+      // Check if the item is already in the cart
+      for (var i = 0; i < cart.length; i++) {
+        if (cart[i].id === id) {
+          cart[i].quantity++;
+          found = true;
+          break;
+        }
+      }
+      // If not, add a new item
+      if (!found) {
+        cart.push({ id: id, name: name, price: price, quantity: 1 });
+      }
+      saveCart(cart);
+      updateCartCount();
+      alert(name + " added to cart!");
+    }
+
+    // When the page loads, update the cart count from localStorage
+    document.addEventListener("DOMContentLoaded", function() {
+      updateCartCount();
+    });
+  </script>
 </body>
 </html>

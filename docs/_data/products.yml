@@ -5,6 +5,9 @@
   grammage: 125 # link to the product directory (with images and product page)
   release: "Jan 2025"
   details: "Detailed description."
+  origin: Kenya
+  process: 'Washed'
+  tasting_notes: 'Red berries, cacao nibs'
 - id: p1
   unique-name: '2501-gloria-natural'
   name: "Gloria Natural"
