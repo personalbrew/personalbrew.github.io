@@ -16,18 +16,6 @@ function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function updateCartCount() {
-  var cart = getCart();
-  var count = 0;
-  for (var id in cart) {
-    count += cart[id].quantity;
-  }
-  var countEl = document.getElementById('cart-count');
-  if (countEl) {
-    countEl.textContent = count;
-  }
-}
-
 
 function getShippingCost(country) {
     return shippingCosts[country] || 0;
@@ -204,14 +192,18 @@ function computeTotals() {
     }
   }
   var finalTotal = subtotal + shippingCost - couponDiscount;
-  return {
-    subtotal: subtotal,
-    shippingCost: shippingCost,
-    couponDiscount: couponDiscount,
-    couponLineText: couponLineText,
-    finalTotal: finalTotal,
-    selectedCountry: selectedCountry
-  };
+  if (subtotal > 0 && shippingCost >= 0 && finalTotal >= 0) {
+    return {
+      subtotal: subtotal,
+      shippingCost: shippingCost,
+      couponDiscount: couponDiscount,
+      couponLineText: couponLineText,
+      finalTotal: finalTotal,
+      selectedCountry: selectedCountry
+    };
+  } else {
+    throw 'Totals wrong: Subtotal=' + subtotal + ';ShippingCost='+shippingCost+';finalTotal='+finalTotal+';couponDiscount='+couponDiscount;
+  }
 }
 
 /* ====================
