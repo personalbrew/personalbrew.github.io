@@ -1,7 +1,7 @@
 - id: p0
   unique-name: '2501-gloria-washed'
-  name: "Gloria Washed"
-  price: 11.90    
+  name: "Gloria Washed" 
+  price: 11.90
   grammage: 125 # link to the product directory (with images and product page)
   release: "Jan 2025"
   details: "Detailed description."

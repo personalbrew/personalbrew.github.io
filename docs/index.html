@@ -17,10 +17,11 @@ permalink: /
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <!-- Firebase config -->
   <script src="/scripts/firebase-config.js"></script>
+  <script src="/scripts/shopping_cart.js"></script>
   
   <!-- PayPal SDK (replace YOUR_PAYPAL_CLIENT_ID with your actual client id) -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASvyCegv19q4XcgYlk94h1PTj0kslZMtWN89mTSo2S_XC0PAu5ValW5ngaFHJ7vGinOP12HmDK6be9El&currency=EUR"></script>
-  
+    
   <style>
     /* Product Grid Styling */
     .product-grid {
@@ -132,7 +133,7 @@ permalink: /
         {{ product.price | number_format: 2 }} €
         <span style="float:right;font-size:0.85em;">(
         <script> 
-          document.write({{ product.price }}*1000/{{ product.grammage }}); 
+          document.write({{product.price}}*1000/{{ product.grammage }}); 
         </script>
          €/kg)
         </span>
@@ -155,18 +156,19 @@ permalink: /
           <tr>
             <th>Product</th>
             <th>Quantity</th>
-            <th>Price</th>
+            <th>Unit price</th>
+            <th>Line total</th>
           </tr>
         </thead>
         <tbody></tbody>
         <tfoot>
           <tr>
-            <td colspan="3">Subtotal:</td>
+            <td colspan="4">Subtotal:</td>
             <td id="cart-subtotal"></td>
           </tr>
           <tr>
             <!-- Shipping row now includes a dropdown to select shipping country -->
-            <td colspan="3">
+            <td colspan="4">
               Shipping 
               <select id="shipping-country">
                 <option value="Germany">Germany</option>
@@ -191,181 +193,36 @@ permalink: /
       <div id="paypal-button-container" style="display: none;"></div>
     </div>
   </div>
-
+  
   <script>
-    /***** Firebase Initialization *****/
-    // Replace these with your Firebase project's configuration values.
-    var db = firebase.firestore();
 
-    /***** Global Variables *****/
-    // Available stock per product (populated from Firebase when products are added)
-    var availableStock = {};
+    var appliedCoupon = null;
+    
+
 
     // Load shipping costs from YAML
     var shippingCosts = {
       "Germany": {{ site.data.shipping_cost.Germany | jsonify }},
       "EU": {{ site.data.shipping_cost.EU | jsonify }}
     };
-    function getShippingCost(country) {
-      return shippingCosts[country] || 0;
-    }
-
-    // The currently applied coupon (if any)
-    var appliedCoupon = null;
 
     /***** Product Class and List from YAML *****/
     class Product {
-      constructor(id, name, price, link, image) {
+      constructor(id, name, price) {
         this.id = id;
         this.name = name;
-        this.price = parseFloat(price);
+        this.price = price;
       }
     }
     const products = [];
     {% for product in site.data.products %}
       products.push(new Product(
         "{{ product.id }}",
-        "{{ product.name }}",
-        "{{ product.price }}"
+        "{{ product.name }}"
       ));
     {% endfor %}
 
-    /***** Cart Variables *****/
-    const cart = {};
-
-    /***** Update Cart UI (and Totals, including coupon discount) *****/
-    function updateCartUI() {
-    const cartTableBody = document.querySelector('#cart-table tbody');
-    cartTableBody.innerHTML = '';
-
-    // Render cart items and compute subtotal
-    for (const id in cart) {
-      const item = cart[id];
-
-      const row = document.createElement('tr');
-      row.innerHTML =
-        '<td>' + item.product.name + '</td>' +
-        '<td>' +
-          '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', -1)">-</button>' +
-          '<span class="quantity">' + item.quantity + '</span>' +
-          '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', 1)">+</button>' +
-        '</td>' +
-        '<td>' + (item.product.price * item.quantity).toFixed(2) + " €" + '</td>';
-
-      cartTableBody.appendChild(row);
-    }
-
-    const totals = computeTotals()
-
-    // Build the totals from scratch
-    const tfoot = document.querySelector('#cart-table tfoot');
-    const totalsHTML = `
-      <tr>
-        <td colspan="3">Subtotal:</td>
-        <td id="cart-subtotal">${totals.subtotal.toFixed(2)} €</td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          Shipping 
-          <select id="shipping-country">
-            <option value="Germany"${totals.selectedCountry === "Germany" ? " selected" : ""}>Germany</option>
-            <option value="EU"${totals.selectedCountry === "EU" ? " selected" : ""}>EU-wide</option>
-          </select>:
-        </td>
-        <td id="cart-shipping">${totals.shippingCost.toFixed(2)} €</td>
-      </tr>
-      ${appliedCoupon && totals.couponDiscount > 0
-        ? `<tr id="row-coupon"><td colspan="3">Coupon Discount:</td><td>${totals.couponLineText}</td></tr>`
-        : ""
-      }
-      <tr id="row-total">
-        <td colspan="3">Total:</td>
-        <td>${totals.finalTotal.toFixed(2)} €</td>
-      </tr>
-    `;
-    tfoot.innerHTML = totalsHTML;
-
-    // Reattach the event listener for the newly created shipping dropdown
-    document.getElementById('shipping-country').addEventListener('change', updateCartUI);
-    const hasItems = Object.keys(cart).length > 0;
-    // Show or hide the cart and PayPal button based on whether there are items
-    document.getElementById('cart').style.display = hasItems ? 'block' : 'none';
-    document.getElementById('paypal-button-container').style.display = hasItems ? 'block' : 'none';
-
-    // Update add-to-cart buttons based on stock status
-    updateAddToCartButtons();
-  }
-    /***** Update Add-to-Cart Buttons based on Stock *****/
-    function updateAddToCartButtons() {
-      document.querySelectorAll('.product-item').forEach(item => {
-        let id = item.getAttribute('data-id');
-        let btn = item.querySelector('.add-to-cart');
-        if (availableStock[id] !== undefined) {
-          if (cart[id] && cart[id].quantity >= availableStock[id]) {
-            btn.disabled = true;
-            btn.textContent = "Out of stock";
-          } else {
-            btn.disabled = false;
-            btn.textContent = "Add to cart";
-          }
-        }
-      });
-    }
-
-    /***** Update Quantity with Plus/Minus Buttons *****/
-    function updateQuantity(productId, change) {
-      // For plus button, check available stock first
-      if (change > 0) {
-        let available = availableStock[productId] || Infinity;
-        if (cart[productId].quantity >= available) {
-          alert("No more stock available for this product.");
-          return;
-        }
-      }
-      if (cart[productId]) {
-        const newQuantity = cart[productId].quantity + change;
-        if (newQuantity > 0) {
-          cart[productId].quantity = newQuantity;
-        } else {
-          delete cart[productId]; // Remove product if quantity becomes 0
-        }
-        updateCartUI();
-      }
-    }
-
-    /***** Add to Cart with Inventory Check *****/
-    function addToCart(productId) {
-      var productRef = db.collection('inventory').doc(productId);
-      productRef.get().then(function(doc) {
-        if (doc.exists) {
-          const currentStock = doc.data().stock;
-          // Store available stock globally
-          availableStock[productId] = currentStock;
-          const currentQuantity = cart[productId] ? cart[productId].quantity : 0;
-
-          if (currentQuantity < currentStock) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            if (cart[productId]) {
-              cart[productId].quantity++;
-            } else {
-              cart[productId] = { product: product, quantity: 1 };
-            }
-            updateCartUI();
-          } else {
-            // Instead of alerting, disable the Add to Cart button
-            const btn = document.querySelector('.product-item[data-id="' + productId + '"] .add-to-cart');
-            btn.disabled = true;
-            btn.textContent = "Out of stock";
-          }
-        } else {
-          console.error("Product " + productId + " not found in inventory.");
-        }
-      }).catch(function(error) {
-        console.error("Error fetching product stock:", error);
-      });
-    }
-
+    
     // Bind event listeners to all add-to-cart buttons
     document.querySelectorAll('.add-to-cart').forEach(function(button) {
       button.addEventListener('click', function() {
@@ -373,13 +230,16 @@ permalink: /
       });
     });
 
-    /***** Coupon Code Application via Firebase *****/
-document.getElementById('apply-coupon').addEventListener('click', function() {
+
+/* ====================
+   Coupon Code Application
+   ==================== */
+   document.getElementById('apply-coupon').addEventListener('click', function() {
   var code = document.getElementById('coupon-code').value.trim();
   if (!code) {
+    document.getElementById('coupon-message').textContent = "Please enter a coupon code.";
     return;
   }
-
   var couponRef = db.collection('coupons').doc(code);
   couponRef.get().then(function(doc) {
     if (doc.exists) {
@@ -396,133 +256,111 @@ document.getElementById('apply-coupon').addEventListener('click', function() {
   });
 });
 
-    /***** Checkout: Inventory Update & PayPal Integration *****/
-    function checkoutInventory() {
-      const promises = [];
-      for (const id in cart) {
-        promises.push(processCartItem(id, cart[id].quantity));
-      }
-      return Promise.all(promises);
-    }
 
-    function processCartItem(productId, quantity) {
-      var productRef = db.collection('inventory').doc(productId);
-      return db.runTransaction(function(transaction) {
-        return transaction.get(productRef).then(function(doc) {
-          if (!doc.exists) {
-            throw 'Product ' + productId + ' does not exist.';
-          }
-          const stock = doc.data().stock;
-          if (stock < quantity) {
-            throw 'Not enough stock for ' + productId + '. Available: ' + stock;
-          }
-          transaction.update(productRef, { stock: stock - quantity });
-        });
-      });
-    }
 
-    /***** Compute Totals *****/
-  function computeTotals() {
-    // Compute subtotal from all cart items.
-    let subtotal = 0;
-    for (const id in cart) {
-      subtotal += cart[id].product.price * cart[id].quantity;
-    }
-    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " €";
-
-    // Get selected shipping country (default to "Germany" if dropdown not found).
-    const shippingDropdown = document.getElementById('shipping-country');
-    let selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
-    const shippingCost = getShippingCost(selectedCountry);
-
-    // Calculate coupon discount (if a coupon is applied)
-    let couponDiscount = 0;
-    let couponLineText = "";
-    if (appliedCoupon) {
-      const couponAction = appliedCoupon.action;
-      if (couponAction === "noshipping") {
-        // Remove shipping cost and show discount equal to shipping cost.
-        couponDiscount = shippingCost;
-        couponLineText = "- " + couponDiscount.toFixed(2) + " € (Shipping)";
-      } else if (!isNaN(couponAction)) { // Numeric percentage discount
-        let percentage = parseFloat(couponAction);
-        couponDiscount = subtotal * (percentage / 100);
-        couponLineText = "- " + couponDiscount.toFixed(2) + " € (" + percentage + "%)";
-      } else if (couponAction.startsWith("p") && couponAction.includes("g")) {
-        // Pattern: pXgY (e.g., p2g3 means: pay for 2 of 3 items)
-        let match = couponAction.match(/^p(\d+)g(\d+)$/);
-        if (match) {
-          let X = parseInt(match[1], 10);
-          let Y = parseInt(match[2], 10);
-          // Count total items in the cart.
-          let totalItems = 0;
-          for (let id in cart) {
-            totalItems += cart[id].quantity;
-          }
-          if (totalItems >= Y) {
-            // Create an array with individual item prices.
-            let prices = [];
-            for (let id in cart) {
-              let item = cart[id];
-              for (let i = 0; i < item.quantity; i++) {
-                prices.push(item.product.price);
-              }
-            }
-            // Sort ascending so that the cheapest prices come first.
-            prices.sort((a, b) => a - b);
-            let discountCount = Y - X;
-            let selected = prices.slice(0, discountCount);
-            couponDiscount = selected.reduce((sum, price) => sum + price, 0);
-            couponLineText = "- " + couponDiscount.toFixed(2) + " € (p" + X + "g" + Y + ")";
-          }
+// PayPal Button Integration
+paypal.Buttons({
+  createOrder: function(data, actions) {
+    var totals = computeTotals();
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          currency_code: "EUR",
+          value: totals.finalTotal.toFixed(2)
         }
-      }
-    }
-
-    // Final total = subtotal + shipping cost - coupon discount.
-    const finalTotal = subtotal + shippingCost - couponDiscount;
-
-    // Return all computed totals.
-    return {subtotal, shippingCost, couponDiscount, couponLineText, finalTotal, selectedCountry};
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      checkoutInventory().then(function() {
+        alert("Transaction completed by " + details.payer.name.given_name);
+        // Clear cart after successful checkout
+        saveCart({});
+        updateCartUI();
+      }).catch(function(error) {
+        console.error("Inventory update error:", error);
+        alert("Payment succeeded, but inventory update failed: " + error);
+      });
+    });
+  },
+  onError: function(err) {
+    console.error("PayPal error:", err);
+    alert("Payment error: " + err);
   }
+}).render('#paypal-button-container');
 
-    // Render PayPal button (using the final total after coupon adjustments)
-    paypal.Buttons({
-      createOrder: function(data, actions) {
-        const totals = computeTotals()
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              currency_code: "EUR",
-              value: totals.finalTotal.toFixed(2)
-            }
-          }]
-        });
-      },
-      onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-          // Optionally inspect shipping address from PayPal here
-          checkoutInventory().then(function() {
-            alert("Transaction completed by " + details.payer.name.given_name);
-            // Clear cart after successful checkout
-            for (const id in cart) { delete cart[id]; }
-            updateCartUI();
-          }).catch(function(error) {
-            console.error("Inventory update error:", error);
-            alert("Payment succeeded, but inventory update failed: " + error);
-          });
-        });
-      },
-      onError: function(err) {
-        console.error("PayPal error:", err);
-        alert("Payment error: " + err);
-      }
-    }).render('#paypal-button-container');
-
-    document.getElementById('shipping-country').addEventListener('change', updateCartUI);
+   document.getElementById('shipping-country').addEventListener('change', updateCartUI);
 
     // Initial UI update
     updateCartUI();
+
+    function updateCartUI() {
+      var cartTableBody = document.querySelector('#cart-table tbody');
+      cartTableBody.innerHTML = '';
+      var cart = getCart();
+      
+      // Render cart items and compute subtotal
+      for (const id in cart) {
+        const item = cart[id];
+        const product = products.find(p => p.id === item.product);
+        const row = document.createElement('tr');
+        row.innerHTML =
+          '<td>' + product.name + '</td>' +
+          '<td>' +
+            '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', -1)">-</button>' +
+            '<span class="quantity">' + item.quantity + '</span>' +
+            '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', 1)">+</button>' +
+          '</td>' +
+          '<td>' + item.price + " €" + '</td>' +
+          '<td>' + (item.price * item.quantity).toFixed(2) + " €" + '</td>';
+
+        cartTableBody.appendChild(row);
+      }
+      
+      // Compute totals using our helper
+      var totals = computeTotals();
+      var tfoot = document.querySelector('#cart-table tfoot');
+      var totalsHTML = `
+        <tr>
+          <td colspan="3">Subtotal:</td>
+          <td id="cart-subtotal">${totals.subtotal.toFixed(2)} €</td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            Shipping 
+            <select id="shipping-country">
+              <option value="Germany"${totals.selectedCountry === "Germany" ? " selected" : ""}>Germany</option>
+              <option value="EU"${totals.selectedCountry === "EU" ? " selected" : ""}>EU-wide</option>
+            </select>:
+          </td>
+          <td id="cart-shipping">${totals.shippingCost.toFixed(2)} €</td>
+        </tr>
+        ${ appliedCoupon && totals.couponDiscount > 0
+            ? `<tr id="row-coupon"><td colspan="3">Coupon Discount:</td><td>${totals.couponLineText}</td></tr>`
+            : ""
+        }
+        <tr id="row-total">
+          <td colspan="3">Total:</td>
+          <td>${totals.finalTotal.toFixed(2)} €</td>
+        </tr>
+      `;
+      tfoot.innerHTML = totalsHTML;
+      
+      // Reattach event listener for shipping dropdown since it is re-created
+      document.getElementById('shipping-country').addEventListener('change', updateCartUI);
+      
+      // Show or hide cart container and PayPal button
+      var hasItems = Object.keys(cart).length > 0;
+      document.getElementById('cart').style.display = hasItems ? 'block' : 'none';
+      document.getElementById('paypal-button-container').style.display = hasItems ? 'block' : 'none';
+      
+      updateAddToCartButtons();
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      updateCartUI();
+    });
   </script>
 </body>
 </html>

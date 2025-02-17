@@ -8,6 +8,13 @@ layout: default
   <meta charset="UTF-8">
   <h1></h1>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase config -->
+  <script src="../../scripts/firebase-config.js"></script>
+  <script src="../../scripts/shopping_cart.js"></script>
+
   <style>
     /* Basic Reset & Layout */
     body {
@@ -194,7 +201,7 @@ layout: default
       </div>
       <!-- Right column: clickable product image -->
       <div class="additionals-right-column">
-        <button class="add-to-cart" onclick="addToCart('{{ page.id }}', '{{ page.name }}', {{ page.price }})">Add to Cart</button>
+        <button class="add-to-cart" onclick="simpleAddToCart('{{ page.id }}')">Add to Cart</button>
         <button class="checkout-button" onclick="location.href='{{ site.url }}#cart'">Your cart</button>
       </div>
     </div>
@@ -204,54 +211,5 @@ layout: default
     <p><h2></h2>{{page.details}}</p>
 
   </div>
-
-
-  <!-- Global Cart Script -->
-  <script>
-    // Retrieve the current cart from localStorage or initialize an empty cart
-    function getCart() {
-      return JSON.parse(localStorage.getItem('cart')) || [];
-    }
-
-    // Save the cart back to localStorage
-    function saveCart(cart) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    // Update the cart icon with the number of items
-    function updateCartCount() {
-      var cart = getCart();
-      var count = cart.reduce((acc, item) => acc + item.quantity, 0);
-      const hasItems = cart > 0;
-      document.getElementById('cart-count').textContent = count;
-      document.getElementById('checkout-button').style.display = hasItems ? 'block' : 'none';
-    }
-
-    // Add a product to the cart
-    function addToCart(id, name, price) {
-      var cart = getCart();
-      var found = false;
-      // Check if the item is already in the cart
-      for (var i = 0; i < cart.length; i++) {
-        if (cart[i].id === id) {
-          cart[i].quantity++;
-          found = true;
-          break;
-        }
-      }
-      // If not, add a new item
-      if (!found) {
-        cart.push({ id: id, name: name, price: price, quantity: 1 });
-      }
-      saveCart(cart);
-      updateCartCount();
-      alert(name + " added to cart!");
-    }
-
-    // When the page loads, update the cart count from localStorage
-    document.addEventListener("DOMContentLoaded", function() {
-      updateCartCount();
-    });
-  </script>
 </body>
 </html>
