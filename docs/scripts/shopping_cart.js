@@ -9,7 +9,7 @@ const availableStock = {};
    Cart Persistence Functions
    ==================== */
 function getCart() {
-    return JSON.parse(localStorage.getItem('cart')) || [];
+    return JSON.parse(localStorage.getItem('cart')) || {};
 }
 
 function saveCart(cart) {
