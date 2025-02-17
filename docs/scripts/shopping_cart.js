@@ -192,18 +192,14 @@ function computeTotals() {
     }
   }
   var finalTotal = subtotal + shippingCost - couponDiscount;
-  if (subtotal > 0 && shippingCost >= 0 && finalTotal >= 0) {
-    return {
-      subtotal: subtotal,
-      shippingCost: shippingCost,
-      couponDiscount: couponDiscount,
-      couponLineText: couponLineText,
-      finalTotal: finalTotal,
-      selectedCountry: selectedCountry
-    };
-  } else {
-    throw 'Totals wrong: Subtotal=' + subtotal + ';ShippingCost='+shippingCost+';finalTotal='+finalTotal+';couponDiscount='+couponDiscount;
-  }
+  return {
+    subtotal: subtotal,
+    shippingCost: shippingCost,
+    couponDiscount: couponDiscount,
+    couponLineText: couponLineText,
+    finalTotal: finalTotal,
+    selectedCountry: selectedCountry
+  };
 }
 
 /* ====================
