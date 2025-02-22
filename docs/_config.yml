@@ -18,6 +18,7 @@ locale: en-US
 title: "Personal Brew Coffee"
 description: "Lightly roasted filter coffee creating your personal experience."
 baseurl: "" # the subpath of your site, e.g. "/blog"
+destination: "_site"
 url: "https://personalbrew.github.io"
 skin: "/assets/css/skins/default.css"
 logo: #"/images/logo.jpg"

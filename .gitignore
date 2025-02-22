@@ -3,3 +3,6 @@ CNAME
 docs/CNAME
 dev_readme.txt
 _site/*
+node_modules/
+.DS_Store
+.sass-cache/
