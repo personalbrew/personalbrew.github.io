@@ -235,8 +235,16 @@
       <!-- Left column: a 2-column x 8-row table -->
       <div class="product-left-column">
         <table id="product-info">
+          
+          
            
     
+          
+
+          
+
+          
+
            
     
           
@@ -254,7 +262,7 @@
       <!-- Left column: a 2-column x 8-row table -->
       <div class="additionals-left-column">
         <table id="product-roaster-info">
-          <tr><td><strong>Released: </strong></td> <td>Jan 2025</td></tr>
+          <tr><td><strong>Release: </strong></td> <td>Jan 2025</td></tr>
     
           
     
@@ -262,12 +270,21 @@
         </table>
 
         <table id="product-pricing">
-          <tr><td><strong>Price: </strong></td> <td>11.9 €</td></tr>
-          <tr><td><strong>Bag weight: </strong></td> <td>125 g</td></tr>
-          <tr><td><strong>Price per kilo: </strong></td><td>
-              <script> 
-                document.write(11.9*1000/125); 
-              </script>€/kg</td>
+          <tr style="margin: 0 50px">
+            <td style="font-size: 1.1em;"><strong>
+              <script>
+                var price = Number(11.9);
+                document.write(price.toFixed(2));
+              </script>
+               €
+            </strong></td>
+            <td>125 g</td>
+            <td style="font-size: 0.9em;">(
+              <script>
+                document.write((11.9 * 1000 / 125).toFixed(2));
+              </script>
+              €/kg)
+            </td>
           </tr>
         </table>
       </div>
