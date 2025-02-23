@@ -168,6 +168,10 @@ layout: default
           {% if page.process %}
           <tr><td><strong>Process: </strong></td> <td>{{ page.process }}</td></tr>
           {% endif %}
+
+          {% if page.altitude %}
+          <tr><td><strong>Altitude: </strong></td> <td>{{ page.altitude }} m</td></tr>
+          {% endif %}
           
           {% if page.tasting_notes %}
           <tr><td><strong>Notes: </strong></td> <td>{{ page.tasting_notes }}</td></tr>
