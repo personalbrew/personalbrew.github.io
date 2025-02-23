@@ -25,28 +25,35 @@ permalink: /
   <style>
     /* Product Grid Styling */
     .product-grid {
-      display: flex;
-      background-color: #fafafa; /* lighter grey */
-      flex-wrap: wrap;
-      gap: 10px;
-      border-radius: 8px;
-      padding: 20px;
-    }
-    .product-item {
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 200px;
-      text-align: center;
-      position: relative;
-    }
-    @media (max-width: 800px) {
-    .product-item {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-      position: relative;
-    /* Show two items per row with a little gap */
-    width: calc(50% - 10px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff8f4, #fefefe);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.product-item {
+  background: rgba(255, 255, 255, 0.05);  /* subtle translucency */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  width: 220px;
+  text-align: center;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 800px) {
+  .product-item {
+    width: calc(50% - 20px); /* Adjusted to account for gap */
   }
 }
 
@@ -70,19 +77,62 @@ permalink: /
     }
     .add-to-cart {
       width: 100%;
-      padding: 8px;
+      padding: 8px 12px;
+      font-size: 1em;
+      color: #fff;
+      background: linear-gradient(135deg, #3f3f3f, #8f8f8f);
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
     }
+
+    .add-to-cart:hover {
+      /* transform: translateY(-2px); */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .add-to-cart:active {
+      /* transform: translateY(0); */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
     .add-to-cart:disabled {
       background-color: #ccc;
       cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Optional: a subtle glowing overlay on hover */
+    .add-to-cart:hover::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      animation: buttonGlow 1.5s infinite;
+      border-radius: inherit;
+    }
+
+    @keyframes buttonGlow {
+      0% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+      100% { opacity: 0.2; }
     }
 
     /* Cart Container Styling */
     #cart-container {
+      
+      background: linear-gradient(135deg, #f3f3f3, #ffffff);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
       margin-top: 40px;
-      background-color: #fafafa; /* lighter grey */
-      border-radius: 8px;
       padding: 20px;
     }
     #cart-table {
@@ -311,7 +361,7 @@ paypal.Buttons({
           '<td>' + product.name + '</td>' +
           '<td>' +
             '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', -1)">-</button>' +
-            '<span class="quantity">' + item.quantity + '</span>' +
+            '<span class="quantity">' + " " + item.quantity + " " + '</span>' +
             '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', 1)">+</button>' +
           '</td>' +
           '<td>' + item.price + " €" + '</td>' +
