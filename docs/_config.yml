@@ -66,6 +66,10 @@ search_full_content: false # can have performance implications for large sites
 # category_archive_path: "/categories/#"
 # tag_archive_path: "/tags/#"
 
+# Explicitly include archive since this is a manually created and populated dir and not a build artifact
+include:
+  - "products/archive"
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
