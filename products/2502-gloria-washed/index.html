@@ -123,13 +123,14 @@
       font-size: 1.5em;
     }
     /* Container */
-    .container {
+    .container {      
+      background: linear-gradient(135deg, #ffd4d4, #ffffff);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       max-width: 800px;
       margin: 30px auto;
       padding: 10px 20px;
-      background: #eee;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     }
     .product-container, .product-additionals {
         display: flex;
@@ -181,33 +182,55 @@
     .product-details p {
       margin: 5px 0;
     }
-    /* Add to Cart Button */
     .add-to-cart, .checkout-button {
-      display: block;           /* or inline-block */
-      width: 80%;               /* fill 80% of the column width, so you see the “center” margin */
-      max-width: 300px;         /* optional, so they don’t stretch too wide on bigger screens */
-      margin: 0 auto;           /* ensure the button is horizontally centered if narrower than 80% */
-      padding: 12px;
-      font-size: 1em;
+      display: inline-block;
+      width: 70%;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      font-size: 1.0em;
+      font-weight: 400;
       color: #fff;
       border: none;
-      border-radius: 4px;
+      border-radius: 12px;
       cursor: pointer;
+      background: linear-gradient(135deg, #3f3f3f, #8f8f8f);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     .checkout-button {
-      padding: 7px 10px;
+      background: linear-gradient(135deg, #5f5f5f, #afafaf);
     }
-    .add-to-cart {
-      background-color: #888888;
+    .add-to-cart:hover, .checkout-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
-    .add-to-cart:hover {
-      background-color: #444444;
+
+    .add-to-cart:active, .checkout-button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
-    .checkout-button {
-      background-color: #aaaaaa;
+
+    /* Optional: Glowing overlay effect on hover */
+    .add-to-cart:hover::after, .checkout-button:hover::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      animation: glow 1.5s ease-out infinite;
+      border-radius: inherit;
     }
-    .checkout-button:hover {
-      background-color: #666666;
+
+    @keyframes glow {
+      0% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+      100% { opacity: 0.2; }
     }
     h1 {text-align: center;}
     #product-info td:first-child, #product-roaster-info td:first-child {
