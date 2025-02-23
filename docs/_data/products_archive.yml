@@ -1,18 +1,15 @@
 - id: p99
-  unique-name: '2401-gloria-washed'
-  name: "Gloria Washed"
-  price: 19.90 
-  grammage: 125    # link to the product directory (with images and product page)
-  release: "Jan 2024"
-- id: p98
-  unique-name: '2401-gloria-natural'
-  name: "Gloria Natural"
-  price: 19.90
-  grammage: 125
-  release: "Jan 2024"
-- id: p97
-  unique-name: '2401-p2-process'
-  name: "Product 2"
-  price: 13.30
-  grammage: 125
-  release: "Jan 2024"
+  unique-name: '2501-gloria-washed'
+  name: "Gloria Ruby Washed" 
+  price: 9.50
+  grammage: 100
+  release: "Jan 2025"
+  fob: 23.60
+  roaster_info: "Recently I shared some samples of my roast of this coffee with coffee friends.\nTheir positive feedback led to the release of this incredible product.\nThis coffee was sourced from shokunin specialty coffee roastery in the Netherlands."
+  details: "Coffee in Kenya is organized and sold through washing stations. This particular one is situated in the Nabiswa region.\nThe coffee cherries were fully washed, went through a triple 24hrs fermentation and finally were dried on raised beds."
+  origin: Kenya
+  variety: SL28, Ruiru 11
+  process: Washed
+  tasting_notes: Red berries, orange, black tea
+  altitude: 1800
+  harvest: 2024
