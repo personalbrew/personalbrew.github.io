@@ -43,13 +43,17 @@ permalink: /products/
         padding-bottom: 25px;
       }
       /* Make sure the product image scales nicely */
-      .right-column img {
+      .right-column img, .right-column-archive img{
         max-width: 100%;
         width: 200px;
         height: auto;
         display: block;
         padding: 10px;
         border-radius: 20px;
+      }
+      .right-column-archive img{
+        width: 150px;
+        margin: auto auto;
       }
       table {
   border-collapse: collapse; /* Ensures borders and spacing collapse */
@@ -60,7 +64,7 @@ table td {
   padding: 2px; /* Adjust as needed */
 }
 .left-column table td:first-child {
-  width: 200px; /* Adjust to your preferred fixed size */
+  width: 80px; /* Adjust to your preferred fixed size */
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
@@ -97,11 +101,11 @@ div.gap {
             {% endif %} 
       
             {% if product.process %}
-            <tr><td>Processing Method: </td> <td>{{ product.process }}</td></tr>
+            <tr><td>Process: </td> <td>{{ product.process }}</td></tr>
             {% endif %}
             
             {% if product.tasting_notes %}
-            <tr><td>Tasting Notes: </td> <td>{{ product.tasting_notes }}</td></tr>
+            <tr><td>Notes: </td> <td>{{ product.tasting_notes }}</td></tr>
             {% endif %}
             </table>
           </table>
@@ -127,19 +131,31 @@ div.gap {
     <div class="product-container">
       <!-- Left column: a 2-column x 8-row table -->
         <div class="left-column">
-          <table id="product-table">
+          <table id="archive-table">
             <!-- First row: product name spanning both columns -->
             <tr>
               <td colspan="2" class="product-name">{{ product.name }}</td>
             </tr>
+            <tr><td>
+            {% if product.origin %}
+            {{ product.origin }}, 
+            {% endif %} 
+      
+            {% if product.variety %}
+            {{ product.variety }}, 
+            {% endif %} 
+      
+            {% if product.process %}
+            {{ product.process }}
+            {% endif %}
+            </td></tr>
             <tr>
-              <td>Release date:</td>
-              <td class="product-release-date">{{ product.release }}</td>
+              <td colspan="2" class="product-release-date">Released {{ product.release }}</td>
             </tr>
           </table>
         </div>
       <!-- Right column: clickable product image -->
-      <div class="right-column">
+      <div class="right-column-archive">
         <a href="archive/{{ product.unique-name }}">
           <img src="archive/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
         </a>

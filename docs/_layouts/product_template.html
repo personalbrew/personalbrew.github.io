@@ -143,18 +143,34 @@ layout: default
         <table id="product-info">
           {% if page.origin %}
           <tr><td><strong>Origin: </strong></td> <td>{{ page.origin }}</td></tr>
+          {% endif %}
+          
+          {% if page.region %}
+          <tr><td><strong>Region: </strong></td> <td>{{ page.region }}</td></tr>
           {% endif %} 
     
+          {% if page.farm %}
+          <tr><td><strong>Farm: </strong></td> <td>{{ page.farm }}</td></tr>
+          {% endif %}
+
+          {% if page.farmer %}
+          <tr><td><strong>Farmer: </strong></td> <td>{{ page.farmer }}</td></tr>
+          {% endif %}
+
+          {% if page.washing_station %}
+          <tr><td><strong>Washing station: </strong></td> <td>{{ page.washing_station }}</td></tr>
+          {% endif %}
+
           {% if page.variety %}
           <tr><td><strong>Variety: </strong></td> <td>{{ page.variety }}</td></tr>
           {% endif %} 
     
           {% if page.process %}
-          <tr><td><strong>Processing Method: </strong></td> <td>{{ page.process }}</td></tr>
+          <tr><td><strong>Process: </strong></td> <td>{{ page.process }}</td></tr>
           {% endif %}
           
           {% if page.tasting_notes %}
-          <tr><td><strong>Tasting Notes: </strong></td> <td>{{ page.tasting_notes }}</td></tr>
+          <tr><td><strong>Notes: </strong></td> <td>{{ page.tasting_notes }}</td></tr>
           {% endif %}
           </table>
       </div>
@@ -168,10 +184,10 @@ layout: default
       <!-- Left column: a 2-column x 8-row table -->
       <div class="additionals-left-column">
         <table id="product-roaster-info">
-          <tr><td><strong>Released: </strong></td> <td>{{ page.release }}</td></tr>
+          <tr><td><strong>Release: </strong></td> <td>{{ page.release }}</td></tr>
     
           {% if page.fob %}
-          <tr><td><strong>Raw coffee price: </strong></td> <td>{{ page.process }} €/kg incl. shipping</td></tr>
+          <tr><td><strong>Raw coffee price: </strong></td> <td>{{ page.fob }} €/kg incl. shipping</td></tr>
           {% endif %}
     
           {% if page.roaster_info %}
@@ -180,12 +196,21 @@ layout: default
         </table>
 
         <table id="product-pricing">
-          <tr><td><strong>Price: </strong></td> <td>{{ page.price }} €</td></tr>
-          <tr><td><strong>Bag weight: </strong></td> <td>{{page.grammage}} g</td></tr>
-          <tr><td><strong>Price per kilo: </strong></td><td>
-              <script> 
-                document.write({{ page.price }}*1000/{{ page.grammage }}); 
-              </script>€/kg</td>
+          <tr style="margin: 0 50px">
+            <td style="font-size: 1.1em;"><strong>
+              <script>
+                var price = Number({{ page.price }});
+                document.write(price.toFixed(2));
+              </script>
+               €
+            </strong></td>
+            <td>{{ page.grammage }} g</td>
+            <td style="font-size: 0.9em;">(
+              <script>
+                document.write(({{ page.price }} * 1000 / {{ page.grammage }}).toFixed(2));
+              </script>
+              €/kg)
+            </td>
           </tr>
         </table>
       </div>
