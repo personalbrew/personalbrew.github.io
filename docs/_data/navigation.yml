@@ -1,8 +1,8 @@
 # Sample site navigation bar links
 - title: Home
-  url: /home
-- title: Shop
   url: /
+- title: Shop
+  url: /shop
 - title: Products
   url: /products
 # - title: About us
