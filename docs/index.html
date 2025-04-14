@@ -325,18 +325,34 @@ paypal.Buttons({
     });
   },
   onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-      checkoutInventory().then(function() {
-        alert("Transaction completed by " + details.payer.name.given_name);
-        // Clear cart after successful checkout
-        saveCart({});
-        updateCartUI();
-      }).catch(function(error) {
-        console.error("Inventory update error:", error);
-        alert("Payment succeeded, but inventory update failed: " + error);
+      return actions.order.capture().then(async function(details) {
+        try {
+          const cart = getCart();
+          const cartItems = Object.keys(cart).map(id => {
+            const p = products.find(p => p.id === cart[id].product);
+            return {
+              ...cart[id],
+              name: p ? p.name : "Unknown"
+            };
+          });
+
+          const totals = computeTotals();
+          const shippingMethod = document.getElementById("shipping-country").value === "Germany" ? "germany" : "international";
+
+          await checkoutInventory();
+          await logOrder(cartItems, totals.finalTotal, shippingMethod);
+
+          alert("Transaction completed by " + details.payer.name.given_name);
+          saveCart({});
+          updateCartUI();
+          window.location.href = "/thank-you";
+
+        } catch (error) {
+          console.error("Error during order processing:", error);
+          alert("Payment succeeded, but an error occurred while processing the order.");
+        }
       });
-    });
-  },
+    },
   onError: function(err) {
     console.error("PayPal error:", err);
     alert("Payment error: " + err);
