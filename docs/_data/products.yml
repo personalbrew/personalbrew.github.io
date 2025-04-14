@@ -1,25 +1,3 @@
-- id: p0
-  unique-name: '2502-gloria-washed'
-  name: "Gloria Nabiswa" 
-  price: 9.50
-  grammage: 100
-  release: "Feb 2025"
-  fob: 23.60
-  roaster_info: "Recently I shared some samples of my roast of this coffee with coffee friends.
-
-    Their positive feedback led to the release of this incredible product.
-
-    This coffee was sourced from shokunin specialty coffee roastery in the Netherlands."
-  details: "Coffee in Kenya is organized and sold through washing stations. This particular one is situated in the Nabiswa region.
-  
-    The coffee cherries were fully washed, went through a triple 24hrs fermentation and finally were dried on raised beds."
-  origin: Kenya
-  variety: SL28, Ruiru 11
-  process: Washed
-  tasting_notes: Red berries, sweet orange, black tea
-  altitude: 1800
-  harvest: 2024
-  washing_station: Karimikui
 - id: p1
   unique-name: '2502-karimikui'
   name: "Karimikui AA"
