@@ -77,7 +77,7 @@
   <div class="navigation-wrapper">
     <a href="#menu-toggle" id="menu-toggle">Menu</a>
     <nav id="primary-nav" class="site-nav animated drop">
-      <ul><li><a href="/home">Home</a></li><li><a href="/">Shop</a></li><li><a href="/products">Products</a></li><li><a href="/aboutus">About us</a></li></ul>
+      <ul><li><a href="/home">Home</a></li><li><a href="/">Shop</a></li><li><a href="/products">Products</a></li></ul>
     </nav>
   </div><!-- /.navigation-wrapper -->
 
@@ -108,13 +108,45 @@
         
       </header>
       <div class="page-content">
-        </head>
-	<body>
-	  <h1></h1>
-	  <small>This page is in construction.</small>
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Centered Video</title>
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+    }
 
-	</body>
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>	  
+	<h1></h1>
+	<h3><i>"Coffee is beautiful and can be way more than just a beverage"</i></h3>
+	<small>The journey of Personal Brew Coffee started back in 2021 after a roadtrip to Italy. Since then we roast coffee on a small drum roaster. The roaster is a Kaleido M1 sample roaster with batch size of up to 200g. Personal Brew Coffee offers bags where each bag is one individual roast batch.<br></small>
+	<p>
+  <div class="video-container">
+	<video width="640" height="360" autoplay loop muted playsinline>
+	  <source src="../videos/roaster0.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</body>
 </html>
+
 
 <div class="entries-list"></div>
 
