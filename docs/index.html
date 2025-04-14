@@ -367,13 +367,42 @@ paypal.Buttons({
     function updateCartUI() {
       var cartTableBody = document.querySelector('#cart-table tbody');
       cartTableBody.innerHTML = '';
-      var cart = getCart();
-      // Remove cart items with missing products
-      const validCart = cart.filter(item => {
-        const product = products.find(p => p.id === item.product);
-        return product !== undefined;
-      });
+
+      let cart = getCart();
+      let validCart = {};
+      let removedMissing = false;
+      let removedOutOfStock = false;
+
+      for (let productId in cart) {
+        const product = products.find(p => p.id === productId);
+
+        if (!product) {
+          removedMissing = true;
+          continue; // skip if product doesn't exist anymore
+        }
+
+        if (product.stock <= 0) {
+          removedOutOfStock = true;
+          continue; // skip if no stock
+        }
+
+        // Optional: you can also check if the cart quantity exceeds stock
+        if (cart[productId].quantity > product.stock) {
+          cart[productId].quantity = product.stock; // cap it to available stock
+        }
+
+        validCart[productId] = cart[productId];
+      }
+
       saveCart(validCart);
+
+      if (removedMissing) {
+        console.warn("Some items were removed from your cart because they no longer exist.");
+      }
+      if (removedOutOfStock) {
+        console.warn("Some items were removed from your cart because they are out of stock.");
+      }
+
       
       // Render cart items and compute subtotal
       for (const id in cart) {
