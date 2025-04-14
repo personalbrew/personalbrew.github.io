@@ -5,8 +5,8 @@
   url: /
 - title: Products
   url: /products
-- title: About us
-  url: /aboutus
+# - title: About us
+#   url: /aboutus
 # - title: Posts
 #   url: /posts/
 # - title: Categories
