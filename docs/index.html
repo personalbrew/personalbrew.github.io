@@ -368,6 +368,12 @@ paypal.Buttons({
       var cartTableBody = document.querySelector('#cart-table tbody');
       cartTableBody.innerHTML = '';
       var cart = getCart();
+      // Remove cart items with missing products
+      const validCart = cart.filter(item => {
+        const product = products.find(p => p.id === item.product);
+        return product !== undefined;
+      });
+      saveCart(validCart);
       
       // Render cart items and compute subtotal
       for (const id in cart) {
