@@ -205,14 +205,24 @@ function computeTotals() {
 /* ====================
    Checkout & PayPal Integration
    ==================== */
-function checkoutInventory() {
-  var cart = getCart();
-  var promises = [];
-  for (var id in cart) {
-    promises.push(processCartItem(id, cart[id].quantity));
+   async function checkoutInventory() {
+    const cart = getCart();
+    const batchPromises = Object.entries(cart).map(async ([key, item]) => {
+      const productRef = doc(db, "inventory", item.product);
+      const productSnap = await getDoc(productRef);
+
+      if (!productSnap.exists) throw new Error("Product not found: " + item.product);
+
+      const currentStock = productSnap.data().stock;
+      if (currentStock < item.quantity) throw new Error("Not enough stock for: " + item.product);
+
+      return updateDoc(productRef, {
+        stock: currentStock - item.quantity
+      });
+    });
+
+    return Promise.all(batchPromises);
   }
-  return Promise.all(promises);
-}
 
 function processCartItem(productId, quantity) {
   var productRef = db.collection('inventory').doc(productId);
@@ -230,3 +240,23 @@ function processCartItem(productId, quantity) {
   });
 }
 
+async function logOrder(cartItems, totalPrice, shippingMethod) {
+  try {
+    const orderData = cartItems.map(item => ({
+      productId: item.product,
+      name: item.name,
+      quantity: item.quantity
+    }));
+
+    await addDoc(collection(db, "orders"), {
+      created: new Date(),
+      items: orderData,
+      totalPrice: totalPrice,
+      shipping: shippingMethod
+    });
+
+    console.log("Order logged successfully");
+  } catch (err) {
+    console.error("Error logging order:", err);
+  }
+}
