@@ -237,22 +237,6 @@ function computeTotals() {
     return Promise.all(batchPromises);
   }
 
-function processCartItem(productId, quantity) {
-  var productRef = db.collection('inventory').doc(productId);
-  return db.runTransaction(function(transaction) {
-    return transaction.get(productRef).then(function(doc) {
-      if (!doc.exists) {
-        throw 'Product ' + productId + ' does not exist.';
-      }
-      var stock = doc.data().stock;
-      if (stock < quantity) {
-        throw 'Not enough stock for ' + productId + '. Available: ' + stock;
-      }
-      transaction.update(productRef, { stock: stock - quantity });
-    });
-  });
-}
-
 async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, customOrdId) {
   try {
     const orderData = cartItems.map(item => ({
@@ -260,7 +244,7 @@ async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, cust
       name: item.name,
       quantity: item.quantity
     }));
-    await firebase.firestore().collection("orders").add({
+    await db.collection("orders").add({
       created: new Date(),
       items: orderData,
       totalPrice: totalPrice,
