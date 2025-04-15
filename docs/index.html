@@ -309,7 +309,7 @@ permalink: /shop
   });
 });
 
-
+let customOrderId = null;
 
 // PayPal Button Integration
 paypal.Buttons({
@@ -319,14 +319,13 @@ paypal.Buttons({
   onCreated: () => {},
   createOrder: function(data, actions) {
     var totals = computeTotals();
-    var orderId = generateOrderId();
+    customOrderId = generateOrderId();
     return actions.order.create({
       purchase_units: [{
         amount: {
           currency_code: "EUR",
           value: totals.finalTotal.toFixed(2)
-        }, 
-        order_id: orderId
+        }
       }]
     });
   },
@@ -346,7 +345,7 @@ paypal.Buttons({
           const shippingMethod = document.getElementById("shipping-country").value === "Germany" ? "germany" : "international";
 
           await checkoutInventory();
-          await logOrder(cartItems, totals.finalTotal, shippingMethod, details.purchase_units[0].order_id);
+          await logOrder(cartItems, totals.finalTotal, shippingMethod, data.orderId, customOrderId);
 
           alert("Order placed!");
           saveCart({});

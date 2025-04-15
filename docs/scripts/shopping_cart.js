@@ -157,9 +157,9 @@ function computeTotals() {
     subtotal += cart[id].price * cart[id].quantity;
   }
   
-  const debugging = false
+  const debugging = false;
   if (debugging) {
-    appliedCoupon = false
+    appliedCoupon = false;
     var shippingCost = 3.9;
   } else {
     var shippingDropdown = document.getElementById('shipping-country');
@@ -253,19 +253,20 @@ function processCartItem(productId, quantity) {
   });
 }
 
-async function logOrder(cartItems, totalPrice, shippingMethod, order_id) {
+async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, customOrdId) {
   try {
     const orderData = cartItems.map(item => ({
       productId: item.product,
       name: item.name,
       quantity: item.quantity
     }));
-    firebase.firestore().collection("orders").add({
+    await firebase.firestore().collection("orders").add({
       created: new Date(),
       items: orderData,
       totalPrice: totalPrice,
       shipping: shippingMethod,
-      orderId: order_id
+      paypalOrderId: paypalOrdId,
+      customOrderId: customOrdId
     });
 
     console.log("Order logged successfully");
