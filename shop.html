@@ -449,7 +449,6 @@ paypal.Buttons({
           await checkoutInventory();
           await logOrder(cartItems, totals.finalTotal, shippingMethod, data.orderID, customOrderId);
 
-          alert("Order placed!");
           saveCart({});
           updateCartUI();
           window.location.href = "/thank-you";
