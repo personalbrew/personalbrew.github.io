@@ -415,6 +415,10 @@
 
 // PayPal Button Integration
 paypal.Buttons({
+  onChanged: () => {},
+  onUpdated: () => {},
+  onClicked: () => {},
+  onCreated: () => {},
   createOrder: function(data, actions) {
     var totals = computeTotals();
     var orderId = generateOrderId();
