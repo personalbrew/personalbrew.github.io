@@ -447,7 +447,7 @@ paypal.Buttons({
           const shippingMethod = document.getElementById("shipping-country").value === "Germany" ? "germany" : "international";
 
           await checkoutInventory();
-          await logOrder(cartItems, totals.finalTotal, shippingMethod, data.orderId, customOrderId);
+          await logOrder(cartItems, totals.finalTotal, shippingMethod, data.orderID, customOrderId);
 
           alert("Order placed!");
           saveCart({});
@@ -456,6 +456,7 @@ paypal.Buttons({
 
         } catch (error) {
           console.error("Error during order processing:", error);
+          console.error("Error message: " + error.message);
           alert("Payment succeeded, but an error occurred while processing the order.");
         }
       });
