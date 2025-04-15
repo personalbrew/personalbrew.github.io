@@ -1,6 +1,7 @@
 resources/*
 CNAME
 docs/CNAME
+docs/sites/debugging.html
 dev_readme.txt
 _site/*
 node_modules/

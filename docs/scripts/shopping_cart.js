@@ -40,6 +40,15 @@ function updateAddToCartButtons() {
   });
 }
 
+function generateOrderId() {
+  const now = new Date();
+  const pad = (n) => n.toString().padStart(2, '0');
+  const datePart = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}`;
+  const timePart = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+  const randomChars = Math.random().toString(36).substring(2, 4).toUpperCase();
+  return `${datePart}-${timePart}-${randomChars}`;
+}
+
 /* ====================
    Quantity & Add-to-Cart Functions
    ==================== */
@@ -147,12 +156,16 @@ function computeTotals() {
   for (var id in cart) {
     subtotal += cart[id].price * cart[id].quantity;
   }
-  // Update subtotal element (optional if computed below)
-  document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " €";
   
-  var shippingDropdown = document.getElementById('shipping-country');
-  var selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
-  var shippingCost = getShippingCost(selectedCountry);
+  const debugging = false
+  if (debugging) {
+    appliedCoupon = false
+    var shippingCost = 3.9;
+  } else {
+    var shippingDropdown = document.getElementById('shipping-country');
+    var selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
+    var shippingCost = getShippingCost(selectedCountry);
+  }
   
   var couponDiscount = 0;
   var couponLineText = "";
@@ -208,15 +221,15 @@ function computeTotals() {
    async function checkoutInventory() {
     const cart = getCart();
     const batchPromises = Object.entries(cart).map(async ([key, item]) => {
-      const productRef = doc(db, "inventory", item.product);
-      const productSnap = await getDoc(productRef);
+      const productRef = db.collection("inventory").doc(item.product);
+      const productSnap = await productRef.get();
 
       if (!productSnap.exists) throw new Error("Product not found: " + item.product);
 
       const currentStock = productSnap.data().stock;
       if (currentStock < item.quantity) throw new Error("Not enough stock for: " + item.product);
 
-      return updateDoc(productRef, {
+      return productRef.update({
         stock: currentStock - item.quantity
       });
     });
@@ -240,19 +253,19 @@ function processCartItem(productId, quantity) {
   });
 }
 
-async function logOrder(cartItems, totalPrice, shippingMethod) {
+async function logOrder(cartItems, totalPrice, shippingMethod, order_id) {
   try {
     const orderData = cartItems.map(item => ({
       productId: item.product,
       name: item.name,
       quantity: item.quantity
     }));
-
-    await addDoc(collection(db, "orders"), {
+    firebase.firestore().collection("orders").add({
       created: new Date(),
       items: orderData,
       totalPrice: totalPrice,
-      shipping: shippingMethod
+      shipping: shippingMethod,
+      orderId: order_id
     });
 
     console.log("Order logged successfully");
