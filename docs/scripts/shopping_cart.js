@@ -244,17 +244,22 @@ async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, cust
       name: item.name,
       quantity: item.quantity
     }));
-    await db.collection("orders").add({
+    const orderPayload = {
       created: new Date(),
       items: orderData,
       totalPrice: totalPrice,
       shipping: shippingMethod,
       paypalOrderId: paypalOrdId,
       customOrderId: customOrdId
-    });
+    };
+    await db.collection("orders").add(orderPayload);
 
     console.log("Order logged successfully");
   } catch (err) {
+    console.log("Order payload:", orderPayload);
+    console.log("Firebase: ", firebase);
+    console.log("Firebase Firestore: ", firebase.firestore());
+    console.log("Firebase db instance: ", db);
     console.error("Error logging order:", err);
   }
 }
