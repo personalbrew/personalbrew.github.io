@@ -239,18 +239,23 @@ function computeTotals() {
 
 async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, customOrdId) {
   try {
-    const orderData = cartItems.map(item => ({
-      productId: item.product,
-      name: item.name,
-      quantity: item.quantity
-    }));
+    const orderData = cartItems.map(item => {
+      if (!item.product || !item.name || item.quantity == null) {
+        console.warn("❗ Invalid item in cartItems:", item);
+      }
+      return {
+        productId: item.product,
+        name: item.name || "Unknown",
+        quantity: item.quantity || 0
+      };
+    });
     const orderPayload = {
       created: new Date(),
       items: orderData,
-      totalPrice: totalPrice,
-      shipping: shippingMethod,
-      paypalOrderId: paypalOrdId,
-      customOrderId: customOrdId
+      totalPrice: totalPrice || 0,
+      shipping: shippingMethod || "unknown",
+      paypalOrderId: paypalOrdId || "missing",
+      customOrderId: customOrdId || "missing"
     };
 
     console.log("Order payload:", orderPayload);
@@ -267,5 +272,6 @@ async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, cust
     console.log("Firebase Firestore: ", firebase.firestore());
     console.log("Firebase db instance: ", db);
     console.error("Error logging order:", err);
+    throw err;
   }
 }
