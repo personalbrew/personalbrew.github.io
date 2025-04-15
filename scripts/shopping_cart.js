@@ -252,6 +252,12 @@ async function logOrder(cartItems, totalPrice, shippingMethod, paypalOrdId, cust
       paypalOrderId: paypalOrdId,
       customOrderId: customOrdId
     };
+
+    console.log("Order payload:", orderPayload);
+    console.log("Firebase: ", firebase);
+    console.log("Firebase Firestore: ", firebase.firestore());
+    console.log("Firebase db instance: ", db);
+
     await db.collection("orders").add(orderPayload);
 
     console.log("Order logged successfully");
