@@ -1,0 +1,25 @@
+---
+layout: home
+limit: 10
+show_excerpts: true
+entries_layout: list
+permalink: /clearcart
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clearing Cart...</title>
+  <script>
+    window.onload = function () {
+      localStorage.setItem('cart', JSON.stringify({}));
+      window.location.href = '/shop';
+    };
+  </script>
+</head>
+<body>
+  <p>Clearing your cart... Please wait.</p>
+</body>
+</html>
