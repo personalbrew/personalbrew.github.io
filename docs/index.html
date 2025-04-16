@@ -421,7 +421,7 @@ paypal.Buttons({
             '<span class="quantity">' + " " + item.quantity + " " + '</span>' +
             '<button class="qty-btn" onclick="updateQuantity(\'' + id + '\', 1)">+</button>' +
           '</td>' +
-          '<td>' + item.price + " €" + '</td>' +
+          '<td>' + item.price.toFixed(2) + " €" + '</td>' +
           '<td>' + (item.price * item.quantity).toFixed(2) + " €" + '</td>';
 
         cartTableBody.appendChild(row);
