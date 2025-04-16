@@ -52,11 +52,18 @@ function generateOrderId() {
 /* ====================
    Quantity & Add-to-Cart Functions
    ==================== */
-function updateQuantity(productId, change) {
+async function updateQuantity(productId, change) {
   var cart = getCart();
   if (cart[productId]) {
-    var available = availableStock[productId] || Infinity;
-    if (change > 0 && cart[productId].quantity >= available) {
+    const productRef = db.collection('inventory').doc(productId);
+    const doc = await productRef.get();
+    if (!doc.exists) {
+      alert("Product not found.");
+      return;
+    }
+    var currentStock = doc.data().stock;
+    availableStock[productId] = currentStock;
+    if (change > 0 && cart[productId].quantity >= currentStock) {
       alert("No more stock available for this product.");
       return;
     }
@@ -87,32 +94,33 @@ function getProductPrice(productId) {
 }
 
 function simpleAddToCart(productId) {
-    var cart = getCart();
-    if (!cart[productId]) {
-      cart[productId] = { product: productId, price: NaN, quantity: 0 };
-    }
-    var currentQuantity = cart[productId].quantity;
-    
-    // Check stock via Firebase
-    var productRef = db.collection('inventory').doc(productId);
-    productRef.get().then(function(doc) {
-      if (doc.exists) {
-        var currentStock = doc.data().stock;
-        availableStock[productId] = currentStock;
-        if (currentQuantity < currentStock) {
-          cart[productId].quantity = currentQuantity + 1;
-          cart[productId].price = doc.data().price;
-          saveCart(cart);
-        } else {
-            alert("Product out of stock. Check the shop!");
-        }
-      } else {
-        console.error("Product " + productId + " not found in inventory.");
-      }
-    }).catch(function(error) {
-      console.error("Error fetching product stock:", error);
-    });
+  var cart = getCart();
+  if (!cart[productId]) {
+    cart[productId] = { product: productId, price: NaN, quantity: 0 };
   }
+  var currentQuantity = cart[productId].quantity;
+  
+  // Check stock via Firebase
+  var productRef = db.collection('inventory').doc(productId);
+  productRef.get().then(function(doc) {
+    if (doc.exists) {
+      var currentStock = doc.data().stock;
+      availableStock[productId] = currentStock;
+      if (currentQuantity < currentStock) {
+        cart[productId].quantity = currentQuantity + 1;
+        cart[productId].price = doc.data().price;
+        saveCart(cart);
+        updateCartUI();
+      } else {
+        alert("Product out of stock. Check the shop!");
+      }
+    } else {
+      console.error("Product " + productId + " not found in inventory.");
+    }
+  }).catch(function(error) {
+    console.error("Error fetching product stock:", error);
+  });
+}
 
 function addToCart(productId) {
   var cart = getCart();
