@@ -19,3 +19,21 @@
   harvest: 2024
   cupping_score: 86.5
   washing_station: Karimikui
+
+- id: p2
+  unique-name: '2505-campohermoso-gesha-honey'
+  name: "Campo Hermoso Gesha"
+  price: 18.50
+  grammage: 100
+  release: "May 2025"
+  details: "Campo Hermoso is a famous and very progressive farm in Colombia.\nThis coffee was the best on the cupping table amongst five different coffees that I sourced from Columbian Spirit."
+  fob: 46.7
+  origin: Colombia
+  variety: Gesha
+  process: Honey
+  tasting_notes: Orange, white flowers, green apple, rose water, green tea
+  altitude: 1750
+  cupping_score: 88+
+  region: Quindio
+  farmer: Edwin Norena
+  farm: Campo Hermoso
