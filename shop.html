@@ -298,6 +298,28 @@
       <button class="add-to-cart" data-id="p1">Add to cart</button>
     </div>
     
+    <div class="product-item" data-id="p2">
+      <a href="products/2505-campohermoso-gesha-honey">
+        <img src="products/2505-campohermoso-gesha-honey/image0.jpg" alt="Campo Hermoso Gesha">
+      </a>
+      <p class="name">Campo Hermoso Gesha</p>
+      <p class="weight">100 g</p>
+      <p class="price" style="text-align:left; font-size: 0.95em;">
+        <script>
+          var price = Number(18.5);
+          document.write(price.toFixed(2));
+        </script> €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write(18.5*1000/100); 
+        </script>
+         €/kg)
+        </span>
+      </p>
+      <!-- Button with data-id; will be disabled when out of stock -->
+      <button class="add-to-cart" data-id="p2">Add to cart</button>
+    </div>
+    
   </div>
   
   <!-- Cart Container -->
@@ -374,6 +396,11 @@
       products.push(new Product(
         "p1",
         "Karimikui AA"
+      ));
+    
+      products.push(new Product(
+        "p2",
+        "Campo Hermoso Gesha"
       ));
     
 
