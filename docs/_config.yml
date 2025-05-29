@@ -96,6 +96,12 @@ page_gen:
     template: 'product_template'  # The layout file to use (placed in _layouts)
     title: 'name'
 
+  - data: 'products_archive'          # This tells it to use _data/products.yml
+    name: 'unique-name'           # This will be used to name the generated pages
+    template: 'product_archive_template'  # The layout file to use (placed in _layouts)
+    title: 'name'
+
+
 
 # Front Matter Defaults
 defaults:
