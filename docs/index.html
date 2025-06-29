@@ -23,6 +23,24 @@ permalink: /shop
   <script src="https://www.paypal.com/sdk/js?client-id=AdYb_nQNhcvuMakIkgBVaL-GTIUpZ4BHsZdGGHSwkt3lfgHBEf632qEXaet6aZo55702qaBBuvj4xJUU&currency=EUR"></script>
     
   <style>
+
+  .info-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #b60000;
+    display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center;     /* centers vertically */
+    text-align: center;      /* centers multi-line text */
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, hsl(0, 100%, 88%), hwb(0 89% 0%));
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px; /* adjust value as needed */
+  }
+
     /* Product Grid Styling */
     .product-grid {
   display: flex;
@@ -171,6 +189,12 @@ permalink: /shop
 <body>
   <h1></h1>
   
+  {% if site.data.shop_info.info %}
+    <div class="info-header">
+      {{ site.data.shop_info.info }}
+    </div>
+  {% endif %}
+
   <!-- Product Grid (generated from YAML) -->
   <div class="product-grid">
     {% for product in site.data.products %}
