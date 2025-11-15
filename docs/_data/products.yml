@@ -37,3 +37,37 @@
   region: Quindio
   farmer: Edwin Norena
   farm: Campo Hermoso
+
+- id: p3
+  unique-name: '2511-gloria-natural'
+  name: "Gloria Natural"
+  price: 8.50
+  grammage: 100
+  release: "November 2025"
+  details: "First direct trade Kenyan that I have seen in my coffee career. A friend and coffee nerd suggested this coffee as one of his favorites back in 2024. Fortunately, shokunin got the greens this year too."
+  fob: 18.25
+  origin: Kenya
+  variety: SL28
+  process: Natural
+  tasting_notes: Rose, black currant, wine gum
+  altitude: 1800
+  region: Nabiswa
+  farmer: Gloria and Jarmo Gummerus
+  farm: Sakami Coffee
+  
+- id: p4
+  unique-name: '2511-caravela-sidra'
+  name: "Caravela Sidra"
+  price: 12
+  grammage: 100
+  release: "November 2025"
+  details: "I had this when it released in Tallin at surfcafé. They provide such a nice experience there and are really close with Jelle from shokunin, plus the baristas travel to origin!"
+  fob: 28.43
+  origin: Ecuador
+  variety: Sidra
+  process: Washed
+  tasting_notes: Rose, black currant, wine gum
+  altitude: 1350
+  region: Pichincha
+  farmer: Caravela organization with Fausto Romo and Marco Morocho
+  farm: La Carolina, La Fortaleza
