@@ -340,6 +340,50 @@
       <button class="add-to-cart" data-id="p2">Add to cart</button>
     </div>
     
+    <div class="product-item" data-id="p3">
+      <a href="products/2511-gloria-natural">
+        <img src="products/2511-gloria-natural/image0.jpg" alt="Gloria Natural">
+      </a>
+      <p class="name">Gloria Natural</p>
+      <p class="weight">100 g</p>
+      <p class="price" style="text-align:left; font-size: 0.95em;">
+        <script>
+          var price = Number(8.5);
+          document.write(price.toFixed(2));
+        </script> €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write(8.5*1000/100); 
+        </script>
+         €/kg)
+        </span>
+      </p>
+      <!-- Button with data-id; will be disabled when out of stock -->
+      <button class="add-to-cart" data-id="p3">Add to cart</button>
+    </div>
+    
+    <div class="product-item" data-id="p4">
+      <a href="products/2511-caravela-sidra">
+        <img src="products/2511-caravela-sidra/image0.jpg" alt="Caravela Sidra">
+      </a>
+      <p class="name">Caravela Sidra</p>
+      <p class="weight">100 g</p>
+      <p class="price" style="text-align:left; font-size: 0.95em;">
+        <script>
+          var price = Number(12);
+          document.write(price.toFixed(2));
+        </script> €
+        <span style="float:right;font-size:0.85em;">(
+        <script> 
+          document.write(12*1000/100); 
+        </script>
+         €/kg)
+        </span>
+      </p>
+      <!-- Button with data-id; will be disabled when out of stock -->
+      <button class="add-to-cart" data-id="p4">Add to cart</button>
+    </div>
+    
   </div>
   
   <!-- Cart Container -->
@@ -421,6 +465,16 @@
       products.push(new Product(
         "p2",
         "Campo Hermoso Gesha"
+      ));
+    
+      products.push(new Product(
+        "p3",
+        "Gloria Natural"
+      ));
+    
+      products.push(new Product(
+        "p4",
+        "Caravela Sidra"
       ));
     
 

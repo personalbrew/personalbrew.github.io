@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Gloria Natural | Personal Brew Coffee</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Gloria Natural" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Lightly roasted filter coffee creating your personal experience." />
+<meta property="og:description" content="Lightly roasted filter coffee creating your personal experience." />
+<link rel="canonical" href="https://personalbrew.github.io/products/2511-gloria-natural/" />
+<meta property="og:url" content="https://personalbrew.github.io/products/2511-gloria-natural/" />
+<meta property="og:site_name" content="Personal Brew Coffee" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Gloria Natural" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Lightly roasted filter coffee creating your personal experience.","headline":"Gloria Natural","url":"https://personalbrew.github.io/products/2511-gloria-natural/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/default.css">
+
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Personal Brew Coffee" href="/atom.xml">
+<!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+<link rel="icon" type="image/png" href="/images/favicon/./favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/images/favicon/./favicon.svg" />
+<link rel="shortcut icon" href="/images/favicon/./favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/./apple-touch-icon.png" />
+<link rel="manifest" href="/images/favicon/./site.webmanifest" />
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--default  gloria-natural">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/shop">Shop</a></li><li><a href="/products">Products</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <div class="site-title animated fadeIn"><a href="/">Personal Brew Coffee</a></div>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Lightly roasted filter coffee creating your personal experience.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+	
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <h1></h1>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase config -->
+  <script src="/scripts/firebase-config.js"></script>
+  <script src="/scripts/shopping_cart.js"></script>
+
+  <style>
+    /* Basic Reset & Layout */
+    body {
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    /* Global Cart Icon */
+    .cart-icon {
+      position: relative;
+      display: inline-block;
+      font-size: 1.5em;
+    }
+    /* Container */
+    .container {
+      gap: 20px;     
+      background: linear-gradient(135deg, #ffd4d4, #ffffff);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 10px 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    .product-container, .product-additionals {
+        display: flex;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #999;
+    }
+    .product-left-column, .additionals-left-column {
+        width: 60%;
+    }
+    .additionals-left-column table {
+      width: 100%; /* Forces the tables to take full width */
+      border-collapse: collapse;
+    }
+    .additionals-left-column td {
+  text-align: left; /* Ensures all content in tables aligns properly */
+  padding: 5px 10px; /* Adds some spacing */
+}
+    .product-right-column {
+      width: 40%;
+      text-align: center;
+    }
+    .additionals-right-column {
+      width: 40%;               /* The column takes 40% of the parent container */
+      display: flex;
+      flex-direction: column;   /* stack the buttons vertically */
+      align-items: center;      /* center them horizontally within this 40% */
+      gap: 10px; 
+    }
+    .product-image {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto;
+      border-radius: 20px;
+      padding: 10px;
+    }
+    /* Product Information */
+    .product-info h2 {
+      color: #4a2c2a;
+    }
+    .product-details {
+      margin-top: 20px;
+    }
+    .product-details h3 {
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .product-details p {
+      margin: 5px 0;
+    }
+    .add-to-cart, .checkout-button {
+      display: inline-block;
+      width: 70%;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      font-size: 1.0em;
+      font-weight: 400;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3f3f3f, #8f8f8f);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .checkout-button {
+      background: linear-gradient(135deg, #5f5f5f, #afafaf);
+    }
+    .add-to-cart:hover, .checkout-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .add-to-cart:active, .checkout-button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Optional: Glowing overlay effect on hover */
+    .add-to-cart:hover::after, .checkout-button:hover::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      animation: glow 1.5s ease-out infinite;
+      border-radius: inherit;
+    }
+
+    @keyframes glow {
+      0% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+      100% { opacity: 0.2; }
+    }
+    h1 {text-align: center;}
+    #product-info td:first-child, #product-roaster-info td:first-child {
+      text-align: left;
+    }
+    #product-info tr:last-child td, #product-pricing tr:last-child td {
+      border-bottom: none;
+    }
+    #product-info, #product-roaster-info, #product-pricing {
+      text-align: left;
+      padding: 7px 15px;
+    }
+    #product-roaster-info tr:last-child td {
+  padding-bottom: 10px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Product Title -->
+    <h1 id="product-name">Gloria Natural</h1>
+
+    <div class="product-container">
+      <!-- Left column: a 2-column x 8-row table -->
+      <div class="product-left-column">
+        <table id="product-info">
+          
+          <tr><td><strong>Origin: </strong></td> <td>Kenya</td></tr>
+          
+          
+          
+          <tr><td><strong>Region: </strong></td> <td>Nabiswa</td></tr>
+           
+    
+          
+          <tr><td><strong>Farm: </strong></td> <td>Sakami Coffee</td></tr>
+          
+
+          
+          <tr><td><strong>Farmer: </strong></td> <td>Gloria and Jarmo Gummerus</td></tr>
+          
+
+          
+
+          
+          <tr><td><strong>Variety: </strong></td> <td>SL28</td></tr>
+           
+    
+          
+          <tr><td><strong>Process: </strong></td> <td>Natural</td></tr>
+          
+
+          
+          <tr><td><strong>Altitude: </strong></td> <td>1800 m</td></tr>
+          
+          
+          
+          <tr><td><strong>Notes: </strong></td> <td>Rose, black currant, wine gum</td></tr>
+          
+          </table>
+      </div>
+      <!-- Right column: clickable product image -->
+      <div class="product-right-column">
+          <a><img class="product-image", src="image0.jpg"></a>
+      </div>
+    </div>
+
+    <div class="product-additionals">
+      <!-- Left column: a 2-column x 8-row table -->
+      <div class="additionals-left-column">
+        <table id="product-roaster-info">
+          <tr><td><strong>Release: </strong></td> <td>November 2025</td></tr>
+    
+          
+          <tr><td><strong>Purchased: </strong></td> <td>18.25 €/kg incl. shipping</td></tr>
+          
+    
+          
+        </table>
+
+        <table id="product-pricing">
+          <tr style="margin: 0 50px">
+            <td style="font-size: 1.1em;"><strong>
+              <script>
+                var price = Number(8.5);
+                document.write(price.toFixed(2));
+              </script>
+               €
+            </strong></td>
+            <td>100 g</td>
+            <td style="font-size: 0.9em;">(
+              <script>
+                document.write((8.5 * 1000 / 100).toFixed(2));
+              </script>
+              €/kg)
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- Right column: clickable product image -->
+      <div class="additionals-right-column">
+        <button class="add-to-cart" onclick="simpleAddToCart('p3')">Add to Cart</button>
+        <button class="checkout-button" onclick="location.href='https://personalbrew.github.io/shop#cart'">Your cart</button>
+      </div>
+    </div>
+
+
+    <div class="gap" style="height:10px"></div>
+    <p><h2></h2>First direct trade Kenyan that I have seen in my coffee career. A friend and coffee nerd suggested this coffee as one of his favorites back in 2024. Fortunately, shokunin got the greens this year too.</p>
+
+  </div>
+  <script>
+    function updateCartUI() {
+      //console.log("updateCartUI() called on product page; no cart UI present here.");
+    }
+  </script>
+</body>
+</html>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://www.instagram.com/personalbrewcoffee/profilecard/?igsh=MXV2ZmswdzB2NzRvNQ=="><i class="fab fa-instagram fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2025 Personal Brew Coffee. <a href="/impressum/">Impressum</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>
