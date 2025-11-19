@@ -72,3 +72,9 @@
   farmer: Caravela organization with Fausto Romo and Marco Morocho
 
   farm: La Carolina, La Fortaleza
+
+- id: p5
+  unique-name: '2511-abaca-red-01'
+  name: "Abaca reds"
+  price: 6
+  details: 100 Abaca red filters, size 01
