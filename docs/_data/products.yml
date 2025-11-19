@@ -31,7 +31,7 @@
   origin: Colombia
   variety: Gesha
   process: Honey
-  tasting_notes: Orange, white flowers, green apple, rose water, green tea
+  tasting_notes: Rose, orange, green apple
   altitude: 1750
   cupping_score: 88+
   region: Quindio
@@ -49,7 +49,7 @@
   origin: Kenya
   variety: SL28
   process: Natural
-  tasting_notes: Rose, black currant, wine gum
+  tasting_notes: Black currant, wine gum, rose
   altitude: 1800
   region: Nabiswa
   farmer: Gloria and Jarmo Gummerus
@@ -66,8 +66,9 @@
   origin: Ecuador
   variety: Sidra
   process: Washed
-  tasting_notes: Rose, black currant, wine gum
+  tasting_notes: Elderflower, orange, earl grey tea
   altitude: 1350
   region: Pichincha
   farmer: Caravela organization with Fausto Romo and Marco Morocho
+
   farm: La Carolina, La Fortaleza
