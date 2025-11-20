@@ -212,8 +212,10 @@ layout: default
       <!-- Left column: a 2-column x 8-row table -->
       <div class="additionals-left-column">
         <table id="product-roaster-info">
+          {% if page.release %}
           <tr><td><strong>Release: </strong></td> <td>{{ page.release }}</td></tr>
-    
+          {% endif %}
+
           {% if page.fob %}
           <tr><td><strong>Purchased: </strong></td> <td>{{ page.fob }} €/kg incl. shipping</td></tr>
           {% endif %}
