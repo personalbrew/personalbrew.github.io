@@ -73,11 +73,9 @@
 
   farm: La Carolina, La Fortaleza
 
-- id: e5
+- id: e0
   unique-name: '2511-abaca-red-01'
   name: "Abaca reds"
   price: 6
-  grammage: 100
-  release: "November 2025"
   details: "100 Abaca red filters, size 01"
 
