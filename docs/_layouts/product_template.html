@@ -234,6 +234,7 @@ layout: default
               </script>
                €
             </strong></td>
+            {% if page.grammage %}
             <td>{{ page.grammage }} g</td>
             <td style="font-size: 0.9em;">(
               <script>
@@ -241,6 +242,7 @@ layout: default
               </script>
               €/kg)
             </td>
+            {% endif %}
           </tr>
         </table>
       </div>
