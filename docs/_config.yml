@@ -100,6 +100,8 @@ page_gen:
     name: 'unique-name'           # This will be used to name the generated pages
     template: 'product_archive_template'  # The layout file to use (placed in _layouts)
     title: 'name'
+    dir: 'products'
+    permalink: '/products/:name/'
 
 
 
