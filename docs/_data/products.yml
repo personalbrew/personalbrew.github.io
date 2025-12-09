@@ -1,25 +1,3 @@
-- id: p1
-  unique-name: '2502-karimikui'
-  name: "Karimikui AA"
-  price: 11.50
-  grammage: 100
-  release: "Feb 2025"
-  details: "Coffee in Kenya is organized and sold through washing stations.
-  
-    This particular one is situated in the Kirinyaga region next to the impressive Mount Kenya."
-  fob: 28.40
-  roaster_info: "In  2024 my favorite coffee was a SL28 from Karimikui roasted by Friedhats. Hence, I am very excited to present a Karimikui coffee out of my own roastery.
-  
-    This coffee was sourced through Falcon Micro EU."
-  origin: Kenya
-  variety: SL14, SL28
-  process: Washed
-  tasting_notes: Red currant, blueberry, rhubarb
-  altitude: 1600 - 1900
-  harvest: 2024
-  cupping_score: 86.5
-  washing_station: Karimikui
-
 - id: p2
   unique-name: '2505-campohermoso-gesha-honey'
   name: "Campo Hermoso Gesha"
