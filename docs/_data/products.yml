@@ -1,3 +1,16 @@
+- id: p6
+  unique-name: '2605-peru-project'
+  name: "La Margarita / 3 Roasters Project"
+  #price: 13
+  grammage: 50
+  release: "June 2026"
+  details: "I proudly present the 3 roaster's interpretation of one green project. Apart from me, JayC and Harest are roasting. The coffee will be available on brup's webshop Bean Bodega."
+  origin: Peru
+  variety: Gesha
+  process: Natural
+  tasting_notes: Mango, jasmine, blackberry
+  farmer: Solorzano Family
+
 - id: p2
   unique-name: '2505-campohermoso-gesha-honey'
   name: "Campo Hermoso Gesha"
@@ -9,7 +22,7 @@
   origin: Colombia
   variety: Gesha
   process: Honey
-  tasting_notes: Rose, orange, green apple
+  tasting_notes: Pineapple, rose, lemongrass
   altitude: 1750
   cupping_score: 88+
   region: Quindio
@@ -50,7 +63,73 @@
   farmer: Caravela organization with Fausto Romo and Marco Morocho
 
   farm: La Carolina, La Fortaleza
-
+  
+- id: p5
+  unique-name: '2605-aragash-gelcha'
+  name: "Aragash Gelcha"
+  price: 13
+  grammage: 100
+  release: "May 2026"
+  details: "Natural ethiopians are usually not my thing with their often outstanding strawberry note. This however has a clean blackberry which I love. This coffee was part of my test of a new importer and so far these coffees have not disappointed. Together with my beloved MCL coffee nerds we cupped these at our meetup."
+  fob: 32.22
+  origin: Ethiopia
+  variety: 74110, Kurume
+  process: Natural
+  tasting_notes: Blackberry, black tea, coconut
+  altitude: 2150
+  region: Gedeb, Gedio
+  farmer: Smallholders
+  
+- id: p7
+  unique-name: '2605-paraiso-caturra'
+  name: "El Paraiso Caturra"
+  price: 21.5
+  grammage: 100
+  release: "May 2026"
+  details: "Habanero note: If you know, you know. It is very green tasting and I love it. This coffee was part of my test of a new importer and so far these coffees have not disappointed. Together with my beloved MCL coffee nerds we cupped these at our meetup."
+  fob: 52.62
+  origin: Colombia
+  variety: Caturra
+  process: Washed, experimental
+  tasting_notes: Guave, hops, violet, habanero
+  altitude: 1950
+  region: Piendamo, Cauca
+  farmer: Wilton Benitez
+  farm: Finca El Paraiso
+    
+- id: p8
+  unique-name: '2605-paraiso-castillo'
+  name: "El Paraiso Castillo"
+  price: 16.5
+  grammage: 100
+  release: "May 2026"
+  details: "Clean and nice. This coffee was part of my test of a new importer and so far these coffees have not disappointed. Together with my beloved MCL coffee nerds we cupped these at our meetup."
+  fob: 39.02
+  origin: Colombia
+  variety: Caturra
+  process: Washed, advanced
+  tasting_notes: Haribos, milk chocolate, lime
+  altitude: 1950
+  region: Piendamo, Cauca
+  farmer: Wilton Benitez
+  farm: Finca El Paraiso
+      
+- id: p9
+  unique-name: '2605-plan-libertat'
+  name: "Plan Libertat"
+  price: 16
+  grammage: 100
+  release: "May 2026"
+  details: "Some nice yellow taste, hmm. This coffee was part of my test of a new importer and so far these coffees have not disappointed. Together with my beloved MCL coffee nerds we cupped these at our meetup."
+  fob: 39.02
+  origin: Mexico
+  variety: Maragogype
+  process: Washed
+  tasting_notes: Stone fruit, mango, citrus
+  altitude: 1700
+  region: Chiapas
+  farmer: Don Ezequiel Diaz
+  
 - id: e0
   unique-name: '2511-abaca-red-01'
   name: "Abaca reds"
