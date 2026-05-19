@@ -5,6 +5,14 @@ const db = firebase.firestore();
 /***** Global Variables *****/
 const availableStock = {};
 
+async function prefetchStock() {
+  const snapshot = await db.collection('inventory').get();
+  snapshot.forEach(doc => {
+    availableStock[doc.id] = doc.data().stock;
+  });
+  updateAddToCartButtons();
+}
+
 /* ====================
    Cart Persistence Functions
    ==================== */
@@ -24,18 +32,22 @@ function getShippingCost(country) {
 /* ====================
    Cart UI Functions
    ==================== */
+
+function setButtonState(btn, outOfStock) {
+  if (!btn) return;
+  btn.disabled = outOfStock;
+  btn.textContent = outOfStock ? "Out of stock" : "Add to cart";
+  btn.style.opacity = outOfStock ? "0.45" : "";
+  btn.style.filter = outOfStock ? "saturate(0.3)" : "";
+}
+
 function updateAddToCartButtons() {
   document.querySelectorAll('.product-item').forEach(item => {
     var id = item.getAttribute('data-id');
     var btn = item.querySelector('.add-to-cart');
     if (availableStock[id] !== undefined) {
-      if (getCart()[id] && getCart()[id].quantity >= availableStock[id]) {
-        btn.disabled = true;
-        btn.textContent = "Out of stock";
-      } else {
-        btn.disabled = false;
-        btn.textContent = "Add to cart";
-      }
+      const outOfStock = availableStock[id] === 0 || (getCart()[id] && getCart()[id].quantity >= availableStock[id]);
+      setButtonState(btn, outOfStock);
     }
   });
 }
@@ -141,11 +153,8 @@ function addToCart(productId) {
         saveCart(cart);
         updateCartUI();
       } else {
-        var btn = document.querySelector('.product-item[data-id="' + productId + '"] .add-to-cart');
-        if (btn) {
-          btn.disabled = true;
-          btn.textContent = "Out of stock";
-        }
+        const btn = document.querySelector('.product-item[data-id="' + productId + '"] .add-to-cart');
+        setButtonState(btn, true);
       }
     } else {
       console.error("Product " + productId + " not found in inventory.");
