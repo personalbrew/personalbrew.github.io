@@ -1,0 +1,97 @@
+---
+layout: home
+limit: 10
+show_excerpts: true
+entries_layout: list
+permalink: /withdrawal
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Refund Requests</title>
+  <!-- Firebase Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase config -->
+  <script src="/scripts/firebase-config.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <h2>Legal withdrawal</h2>
+  <div id="withdrawal-form">
+	<h3>Request a Refund</h3>
+	<input id="order-id" type="text"   placeholder="Order ID" />
+	<br>
+	<input id="email"    type="email"  placeholder="E-Mail" />
+	<br>
+	<select id="reasonSelector">
+		<option value="">- Select a reason -</option>
+		<option value="damaged">Item arrived damaged</option>
+		<option value="wrong_item">Wrong item received</option>
+		<option value="not_arrived">Item never arrived</option>
+		<option value="other">Other</option>
+	</select>
+	<br>
+	<textarea id="details" placeholder="Additional details (optional)"></textarea>
+	<br>
+	<button id="submit-btn" onclick="submitRefundRequest()">Request</button>
+	</div>
+	
+	<p id="status-msg"></p>
+
+  <script>
+    const db = firebase.firestore();
+	async function submitRefundRequest() {
+		const orderId = document.getElementById('order-id').value.trim();
+		const email   = document.getElementById('email').value.trim();
+		const reasonSelect = document.getElementById('reasonSelector');
+		const reason       = reasonSelect.value;
+		const reasonText   = reasonSelect.options[reasonSelect.selectedIndex].text;
+
+		const details = document.getElementById('details').value.trim();
+		const msg     = document.getElementById('status-msg');
+		const btn     = document.getElementById('submit-btn');
+
+		if (!orderId || !email || !reason) {
+			msg.textContent = "Please fill in all required fields.";
+			return;
+		}
+
+		btn.disabled = true;
+		msg.textContent = "Submitting...";
+
+		try {
+			await db.collection('withdrawals').add({
+			orderId:  orderId,
+			email:    email,
+			reason:   reason,
+			details:  details || "",
+			status:   "pending",
+			created:  firebase.firestore.FieldValue.serverTimestamp()
+			});
+			msg.innerHTML = `Refund request submitted. We'll get back to you shortly.<br><br>
+				Summary:<br>
+  				Order ID: ${orderId}<br>
+  				Email: ${email}<br>
+  				Reason: ${reasonText}<br>
+  				${details ? `Details: ${details}<br>` : ''}
+			`;
+			btn.disabled = false;
+			// Reset fields on success
+			document.getElementById('order-id').value = '';
+			document.getElementById('email').value    = '';
+			document.getElementById('reasonSelector').selectedIndex   = 0;
+			document.getElementById('details').value  = '';
+
+			document.getElementById('withdrawal-form').style.display = 'none';
+		} catch (err) {
+			console.error("Refund request failed:", err);
+			msg.textContent = "Something went wrong. Please try again.";
+			btn.disabled = false;
+		}
+	}
+  </script>
+</body>
+</html>
