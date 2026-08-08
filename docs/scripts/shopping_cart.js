@@ -25,8 +25,12 @@ function saveCart(cart) {
 }
 
 
-function getShippingCost(country) {
-    return shippingCosts[country] || 0;
+function getShippingCost(country, productCount) {
+    var factor = 1;
+    if (productCount >= 8) {
+      factor = 2;
+    }
+    return (shippingCosts[country] || 0) * factor;
   }
 
 /* ====================
@@ -170,8 +174,11 @@ function addToCart(productId) {
 function computeTotals() {
   var cart = getCart();
   var subtotal = 0;
+  var cartLength = 0;
   for (var id in cart) {
-    subtotal += cart[id].price * cart[id].quantity;
+    var product = cart[id];
+    subtotal += product.price * product.quantity;
+    cartLength+= product.quantity;
   }
   
   const debugging = false;
@@ -181,7 +188,7 @@ function computeTotals() {
   } else {
     var shippingDropdown = document.getElementById('shipping-country');
     var selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
-    var shippingCost = getShippingCost(selectedCountry);
+    var shippingCost = getShippingCost(selectedCountry, cartLength);
   }
   
   var couponDiscount = 0;
