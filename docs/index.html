@@ -50,6 +50,7 @@ permalink: /shop
   background: linear-gradient(135deg, #fff8f4, #fefefe);
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  margin-bottom: 40px;
 }
 
 .product-item {
@@ -196,32 +197,55 @@ permalink: /shop
     </div>
   {% endif %}
 
-  <!-- Product Grid (generated from YAML) -->
-  <div class="product-grid">
-    {% for product in site.data.products %}
-    <div class="product-item" data-id="{{ product.id }}">
-      <a href="products/{{ product.unique-name }}">
-        <img src="products/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
-      </a>
-      <p class="name">{{ product.name }}</p>
-      <p class="price" style="text-align:left; font-size: 0.95em;">
-        <script>
-          var price = Number({{ product.price }});
-          document.write(price.toFixed(2));
-        </script> €
-
-        {% if product.grammage %}
-        <span style="float:right;font-size:0.85em;">
-        {{ product.grammage }} g
-        </span>
-        {% endif %}
-
-      </p>
-      <!-- Button with data-id; will be disabled when out of stock -->
-      <button class="add-to-cart" data-id="{{ product.id }}">Add to cart</button>
-    </div>
-    {% endfor %}
+<!-- Coffee Section -->
+{% assign coffee_products = site.data.products | where_exp: "p", "p.id contains 'p'" %}
+{% if coffee_products.size > 0 %}
+<div class="product-grid">
+  {% for product in coffee_products %}
+  <div class="product-item" data-id="{{ product.id }}">
+    <a href="products/{{ product.unique-name }}">
+      <img src="products/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
+    </a>
+    <p class="name">{{ product.name }}</p>
+    <p class="price" style="text-align:left; font-size: 0.95em;">
+      <script>
+        var price = Number({{ product.price }});
+        document.write(price.toFixed(2));
+      </script> €
+      {% if product.grammage %}
+      <span style="float:right;font-size:0.85em;">{{ product.grammage }} g</span>
+      {% endif %}
+    </p>
+    <button class="add-to-cart" data-id="{{ product.id }}">Add to cart</button>
   </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- Equipment Section -->
+{% assign equipment_products = site.data.products | where_exp: "p", "p.id contains 'e'" %}
+{% if equipment_products.size > 0 %}
+<div class="product-grid">
+  {% for product in equipment_products %}
+  <div class="product-item" data-id="{{ product.id }}">
+    <a href="products/{{ product.unique-name }}">
+      <img src="products/{{ product.unique-name }}/image0.jpg" alt="{{ product.name }}">
+    </a>
+    <p class="name">{{ product.name }}</p>
+    <p class="price" style="text-align:left; font-size: 0.95em;">
+      <script>
+        var price = Number({{ product.price }});
+        document.write(price.toFixed(2));
+      </script> €
+      {% if product.grammage %}
+      <span style="float:right;font-size:0.85em;">{{ product.grammage }} g</span>
+      {% endif %}
+    </p>
+    <button class="add-to-cart" data-id="{{ product.id }}">Add to cart</button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
   
   <!-- Cart Container -->
   <div id="cart-container">
