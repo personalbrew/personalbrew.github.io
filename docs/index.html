@@ -248,9 +248,9 @@ permalink: /shop
           <tr>
             <!-- Shipping row now includes a dropdown to select shipping country -->
             <td colspan="4">
-              Shipping 
+              Shipping
               <select id="shipping-country">
-                <option value="Germany">Germany</option>
+                <option value="DE">Germany</option>
                 <option value="EU">EU-wide</option>
               </select>
               :
@@ -286,7 +286,7 @@ permalink: /shop
 
     // Load shipping costs from YAML
     var shippingCosts = {
-      "Germany": {{ site.data.shipping_cost.Germany | jsonify }},
+      "DE": {{ site.data.shipping_cost.DE | jsonify }},
       "EU": {{ site.data.shipping_cost.EU | jsonify }}
     };
 
@@ -354,11 +354,47 @@ paypal.Buttons({
       purchase_units: [{
         amount: {
           currency_code: "EUR",
-          value: totals.finalTotal.toFixed(2)
+          value: totals.subtotal.toFixed(2),
+          breakdown: {
+            item_total: { value: totals.subtotal.toFixed(2), currency_code: "EUR" },
+            shipping:   { value: "0.00", currency_code: "EUR" }
+          }
         },
         custom_id: customOrderId
       }]
     });
+  },
+  onShippingChange: function(data, actions) {
+    const country  = data.shipping_address.country_code; // "DE", "FR", etc.
+      const mappedCountry = country === "DE" ? "DE" : "EU";
+
+    // Update dropdown → computeTotals reads from it automatically
+    const dropdown = document.getElementById('shipping-country');
+    if (dropdown) dropdown.value = mappedCountry;
+
+    const totals   = computeTotals();
+    const shipping = totals.shippingCost;
+
+    if (!shipping) return actions.reject();
+
+    // Update the shipping line in your cart UI
+    const shippingEl = document.getElementById('cart-shipping');
+    if (shippingEl) shippingEl.textContent = shipping.toFixed(2) + " €";
+    const totalEl = document.querySelector('#row-total td:last-child');
+    if (totalEl) totalEl.textContent = totals.finalTotal.toFixed(2) + " €";
+
+    return actions.order.patch([{
+      op: "replace",
+      path: "/purchase_units/@reference_id=='default'/amount",
+      value: {
+        currency_code: "EUR",
+        value: (totals.finalTotal + shipping).toFixed(2),
+        breakdown: {
+          item_total: { value: totals.subtotal.toFixed(2), currency_code: "EUR" },
+          shipping:   { value: shipping.toFixed(2),        currency_code: "EUR" }
+        }
+      }
+    }]);
   },
   onApprove: function(data, actions) {
       return actions.order.capture().then(async function(details) {
@@ -371,12 +407,12 @@ paypal.Buttons({
               name: p ? p.name : "Unknown"
             };
           });
-
+          const shippingAmount = parseFloat(details.purchase_units[0].amount.breakdown.shipping.value);
           const totals = computeTotals();
-          const shippingMethod = document.getElementById("shipping-country").value === "Germany" ? "germany" : "international";
+          const finalTotal = totals.subtotal + shippingAmount - totals.couponDiscount;
 
           await checkoutInventory();
-          await logOrder(cartItems, totals.finalTotal, shippingMethod, data.orderID, customOrderId);
+          await logOrder(cartItems, finalTotal, details.payer.address?.country_code, data.orderID, customOrderId);
 
           saveCart({});
           updateCartUI();
@@ -470,7 +506,7 @@ paypal.Buttons({
           <td colspan="3">
             Shipping 
             <select id="shipping-country">
-              <option value="Germany"${totals.selectedCountry === "Germany" ? " selected" : ""}>Germany</option>
+              <option value="DE"${totals.selectedCountry === "DE" ? " selected" : ""}>Germany</option>
               <option value="EU"${totals.selectedCountry === "EU" ? " selected" : ""}>EU-wide</option>
             </select>:
           </td>
