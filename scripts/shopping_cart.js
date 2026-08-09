@@ -5,6 +5,8 @@ const db = firebase.firestore();
 /***** Global Variables *****/
 const availableStock = {};
 
+const maxItems = 40;
+
 async function prefetchStock() {
   const snapshot = await db.collection('inventory').get();
   snapshot.forEach(doc => {
@@ -25,9 +27,13 @@ function saveCart(cart) {
 }
 
 
-function getShippingCost(country) {
-    return shippingCosts[country] || 0;
-  }
+function getShippingCost(country, productCount) {
+    var factor = 1;
+    if (country == "DE" && productCount >= 8) {
+      factor = 2;
+    }
+    return (shippingCosts[country] || 0) * factor;
+}
 
 /* ====================
    Cart UI Functions
@@ -75,6 +81,13 @@ async function updateQuantity(productId, change) {
     }
     var currentStock = doc.data().stock;
     availableStock[productId] = currentStock;
+    if (change > 0) {
+      var totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+      if (totalItems >= maxItems) {
+    alert("Cart is limited to " + maxItems + " items.");
+        return;
+      }
+    }
     if (change > 0 && cart[productId].quantity >= currentStock) {
       alert("No more stock available for this product.");
       return;
@@ -105,37 +118,13 @@ function getProductPrice(productId) {
     });
 }
 
-function simpleAddToCart(productId) {
-  var cart = getCart();
-  if (!cart[productId]) {
-    cart[productId] = { product: productId, price: NaN, quantity: 0 };
-  }
-  var currentQuantity = cart[productId].quantity;
-  
-  // Check stock via Firebase
-  var productRef = db.collection('inventory').doc(productId);
-  productRef.get().then(function(doc) {
-    if (doc.exists) {
-      var currentStock = doc.data().stock;
-      availableStock[productId] = currentStock;
-      if (currentQuantity < currentStock) {
-        cart[productId].quantity = currentQuantity + 1;
-        cart[productId].price = doc.data().price;
-        saveCart(cart);
-        updateCartUI();
-      } else {
-        alert("Product out of stock. Check the shop!");
-      }
-    } else {
-      console.error("Product " + productId + " not found in inventory.");
-    }
-  }).catch(function(error) {
-    console.error("Error fetching product stock:", error);
-  });
-}
-
 function addToCart(productId) {
   var cart = getCart();
+  var totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+  if (totalItems >= maxItems) {
+    alert("Cart is limited to " + maxItems + " items.");
+    return;
+  }
   if (!cart[productId]) {
     cart[productId] = { product: productId, price: NaN, quantity: 0 };
   }
@@ -170,8 +159,11 @@ function addToCart(productId) {
 function computeTotals() {
   var cart = getCart();
   var subtotal = 0;
+  var cartLength = 0;
   for (var id in cart) {
-    subtotal += cart[id].price * cart[id].quantity;
+    var product = cart[id];
+    subtotal += product.price * product.quantity;
+    cartLength+= product.quantity;
   }
   
   const debugging = false;
@@ -181,7 +173,7 @@ function computeTotals() {
   } else {
     var shippingDropdown = document.getElementById('shipping-country');
     var selectedCountry = shippingDropdown ? shippingDropdown.value : "Germany";
-    var shippingCost = getShippingCost(selectedCountry);
+    var shippingCost = getShippingCost(selectedCountry, cartLength);
   }
   
   var couponDiscount = 0;
