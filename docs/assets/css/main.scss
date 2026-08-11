@@ -6,3 +6,19 @@ sitemap: false
 @charset "utf-8";
 
 @import "so-simple";
+
+
+.navigation-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.nav-logo-img {
+  height: 150px;
+  width: auto;
+  display: block;
+}

@@ -21,7 +21,7 @@ baseurl: "" # the subpath of your site, e.g. "/blog"
 destination: "_site"
 url: "https://personalbrew.github.io"
 skin: "/assets/css/skins/default.css"
-logo: #"/images/logo.jpg"
+logo: "/images/lgbtq_origami_logo_small.png"
 date_format: "%B %-d, %Y"
 read_time: # reading time estimates, e.g. true
 words_per_minute: # 200
