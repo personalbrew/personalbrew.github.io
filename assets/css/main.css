@@ -2453,19 +2453,13 @@ a img.align-left {
   padding-top: 100%;
 }
 
-.navigation-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.nav-logo-img {
-  height: 150px;
+.floating-logo {
+  position: absolute;
+  top: 20px; /* nudge these two values to move it around */
+  left: 200px;
+  height: 250px;
   width: auto;
-  display: block;
+  z-index: 10;
 }
 
 /*# sourceMappingURL=main.css.map */
