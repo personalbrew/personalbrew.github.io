@@ -1,11 +1,5 @@
 {% if site.data.navigation %}
   <div class="navigation-wrapper">
-    {% assign nav_logo = site.display_logo | default: site.logo %}
-    {% if nav_logo %}
-      <a href="{{ '/' | relative_url }}" class="nav-logo" rel="home" title="{{ site.title }}">
-        <img src="{{ nav_logo | relative_url }}" class="nav-logo-img" alt="{{ site.title }}">
-      </a>
-    {% endif %}
     <a href="#menu-toggle" id="menu-toggle">{{ site.data.text[site.locale].menu_label | default: 'Menu' }}</a>
     <nav id="primary-nav" class="site-nav animated drop">
       <ul>

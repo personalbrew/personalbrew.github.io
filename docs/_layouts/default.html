@@ -11,6 +11,10 @@
   <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %} {% if page.entries_layout == 'grid' %}page--wide{% endif %} {{ page.title | slugify }}">
     {% include skip-links.html %}
     {% include navigation.html %}
+    {% assign nav_logo = site.display_logo | default: site.logo %}
+    {% if nav_logo %}
+      <img src="{{ nav_logo | relative_url }}" class="floating-logo" alt="{{ site.title }}">
+    {% endif %}
     {% include masthead.html %}
 	
     {{ content }}
