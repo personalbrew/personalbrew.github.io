@@ -2453,4 +2453,19 @@ a img.align-left {
   padding-top: 100%;
 }
 
+.navigation-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.nav-logo-img {
+  height: 150px;
+  width: auto;
+  display: block;
+}
+
 /*# sourceMappingURL=main.css.map */
