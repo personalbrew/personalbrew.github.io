@@ -26,8 +26,14 @@ sitemap: false
   }
 }
 
-.masthead,
+.masthead {
+  padding-bottom: 0;
+  margin-bottom: -5px; 
+}
 .masthead .wrap {
+  padding-top: 15px;      /* pushes title/tagline down a bit */
+  padding-bottom: 0;  
+  margin-bottom: 0;
   position: relative;
   z-index: 1;
   background: transparent;   /* was #fff — let the logo show through */
