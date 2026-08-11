@@ -2455,11 +2455,26 @@ a img.align-left {
 
 .floating-logo {
   position: absolute;
-  top: 20px; /* nudge these two values to move it around */
-  left: 200px;
+  top: 10px;
+  left: 20px; /* moved off the nav, was left */
   height: 250px;
   width: auto;
-  z-index: 10;
+  z-index: 0;
+  pointer-events: none; /* image itself never captures clicks, even if it overlaps */
+}
+
+@media (max-width: 1000px) {
+  .floating-logo {
+    height: 100px;
+    top: 8px;
+    right: 8px;
+  }
+}
+.masthead,
+.masthead .wrap {
+  position: relative;
+  z-index: 1;
+  background: transparent; /* was #fff — let the logo show through */
 }
 
 /*# sourceMappingURL=main.css.map */
