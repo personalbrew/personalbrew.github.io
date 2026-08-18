@@ -247,12 +247,13 @@ permalink: /shop
 </div>
 {% endif %}
   
-  <!-- Cart Container -->
-  <div id="cart-container">
-    <h2>Your Cart</h2>
+<!-- Cart Container -->
+<div id="cart-container">
+  <h2>Your Cart</h2>
 	<!--
-    <small>Free shipping with 3 or more bags</small>
-	 -->
+  <small>Free shipping with 3 or more bags</small>
+  -->
+    {% if site.data.shop_killswitch.shop_enabled %}
     <div id="cart" style="display: none;">
       <table id="cart-table">
         <thead>
@@ -291,10 +292,15 @@ permalink: /shop
         <button id="apply-coupon">Apply</button>
         <span id="coupon-message"></span>
       </div>
-      
       <!-- PayPal Button container (initially hidden) -->
       <div id="paypal-button-container" style="display: none;"></div>
     </div>
+    {% else %}
+       <!-- Fallback, wenn shop_enabled: false ist -->
+      <div id="shop-closed-message" style="color: red; font-weight: bold;">
+        Cart disabled.
+      </div>
+    {% endif %}
   </div>
 
 
