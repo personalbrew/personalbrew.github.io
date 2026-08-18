@@ -301,6 +301,10 @@
   <h1></h1>
   
   
+    <div class="info-header">
+      SHOP DISABLED until I figure out the new packaging law.
+    </div>
+  
 
 <!-- Coffee Section -->
 
@@ -435,54 +439,18 @@
 </div>
 
   
-  <!-- Cart Container -->
-  <div id="cart-container">
-    <h2>Your Cart</h2>
+<!-- Cart Container -->
+<div id="cart-container">
+  <h2>Your Cart</h2>
 	<!--
-    <small>Free shipping with 3 or more bags</small>
-	 -->
-    <div id="cart" style="display: none;">
-      <table id="cart-table">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Unit price</th>
-            <th>Line total</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="4">Subtotal:</td>
-            <td id="cart-subtotal"></td>
-          </tr>
-          <tr>
-            <!-- Shipping row now includes a dropdown to select shipping country -->
-            <td colspan="4">
-              Shipping
-              <select id="shipping-country">
-                <option value="DE">Germany</option>
-                <option value="EU">EU-wide</option>
-              </select>
-              :
-            </td>
-            <td id="cart-shipping"></td>
-          </tr>
-        </tfoot>
-      </table>
-      
-      <!-- Coupon Code Section -->
-      <div id="coupon-container">
-        <label for="coupon-code">Coupon:</label>
-        <input type="text" id="coupon-code">
-        <button id="apply-coupon">Apply</button>
-        <span id="coupon-message"></span>
+  <small>Free shipping with 3 or more bags</small>
+  -->
+    
+       <!-- Fallback, wenn shop_enabled: false ist -->
+      <div id="shop-closed-message" style="color: red; font-weight: bold;">
+        Cart disabled.
       </div>
-      
-      <!-- PayPal Button container (initially hidden) -->
-      <div id="paypal-button-container" style="display: none;"></div>
-    </div>
+    
   </div>
 
 
