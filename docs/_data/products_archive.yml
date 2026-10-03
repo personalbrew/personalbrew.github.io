@@ -71,3 +71,20 @@
   altitude: 2150
   region: Gedeb, Gedio
   farmer: Smallholders
+
+- id: p8
+  unique-name: '2605-paraiso-castillo'
+  name: "El Paraiso Castillo"
+  price: 16.5
+  grammage: 100
+  release: "May 2026"
+  details: "Clean and nice. This coffee was part of my test of a new importer and so far these coffees have not disappointed. Together with my beloved MCL coffee nerds we cupped these at our meetup."
+  fob: 39.02
+  origin: Colombia
+  variety: Caturra
+  process: Washed, advanced
+  tasting_notes: Haribos, milk chocolate, lime
+  altitude: 1950
+  region: Piendamo, Cauca
+  farmer: Wilton Benitez
+  farm: Finca El Paraiso
