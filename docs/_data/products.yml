@@ -36,11 +36,11 @@
 - id: p4
   unique-name: '2511-caravela-sidra'
   name: "Caravela Sidra"
-  price: 12
+  price: 15
   grammage: 100
   release: "November 2025"
-  details: "I had this when it released in Tallin at surfcafé. They provide such a nice experience there and are really close with Jelle from shokunin, plus the baristas travel to origin!"
-  fob: 28.43
+  details: "I had this when it released in Tallin at surfcafé. They provide such a nice experience there and are really close with Jelle from shokunin, plus the baristas travel to origin! This green's price increased significantly and hence I had to adapt the price too."
+  fob: 36.74
   origin: Ecuador
   variety: Sidra
   process: Washed
@@ -48,7 +48,6 @@
   altitude: 1350
   region: Pichincha
   farmer: Caravela organization with Fausto Romo and Marco Morocho
-
   farm: La Carolina, La Fortaleza
     
 - id: p7
