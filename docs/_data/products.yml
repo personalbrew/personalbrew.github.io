@@ -1,3 +1,35 @@
+- id: p10
+  unique-name: '2610-visioneers-cr95'
+  name: "Finca Visioneers CR95"
+  price: 11
+  grammage: 100
+  release: "October 2026"
+  details: "On a random day in Berlin I walked into a random café and got slightly confused when my half-conscious yet under-caffeinated me saw a sign stating \"Coffee of our own farm in Costa Rica\".<br>Turns out I find one of the coolest projects that exists in Specialty Coffee to this date. Finca Visioneers is building a Kindergarden next to their farm to fight child labor.<br><br> Buying this coffee directly supports this project. <b>I will donate all profits to the Kindergarden.</b>"
+  origin: Costa Rica
+  variety: CR95
+  process: Natural
+  altitude: 1320
+  fob: 0
+  region: San José Province
+  tasting_notes: Hibiscus, red currants, grapes
+  farm: Finca Visioneers
+   
+- id: p11
+  unique-name: '2610-nogales-decaf'
+  name: "Los Nogales DECAF"
+  price: 17
+  grammage: 100
+  release: "October 2026"
+  details: "Finally I got my hands on this amazing green coffee. Los Nogales is quite famous for its processed decaf coffee.<br><br>Enjoy your caffeeine free brews"
+  origin: Colombia
+  variety: Typica
+  process: Anaerobic washed, Coffee pulp decaffeination
+  altitude: 1900
+  fob: 41.16
+  region: Huila
+  tasting_notes: Orange blossom, grapes, banana
+  farm: Finca Los Nogales
+
 - id: p2
   unique-name: '2505-campohermoso-gesha-honey'
   name: "Campo Hermoso Gesha"
